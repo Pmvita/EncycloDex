@@ -64,6 +64,7 @@ export default function HomeScreen() {
   };
 
   const handleBookPress = (bookId: string) => {
+    console.log('Navigating to book:', bookId);
     router.push(`/book/${bookId}`);
   };
 
