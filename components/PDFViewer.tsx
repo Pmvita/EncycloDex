@@ -19,12 +19,28 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [pdfUri, setPdfUri] = useState<string | null>(null);
+  const [showBrowserOption, setShowBrowserOption] = useState(false);
+  const [loadingProgress, setLoadingProgress] = useState<string>('Initializing...');
 
   useEffect(() => {
     const loadPDF = async () => {
       try {
         const uri = await getAssetUri(source);
         setPdfUri(uri);
+        setLoadingProgress('Checking PDF availability...');
+        
+        // Test if PDF is accessible
+        try {
+          const response = await fetch(uri, { method: 'HEAD' });
+          if (!response.ok) {
+            throw new Error(`PDF not accessible: ${response.status}`);
+          }
+          setLoadingProgress('Loading PDF viewer...');
+        } catch (fetchError) {
+          console.warn('PDF accessibility check failed:', fetchError);
+          // Continue anyway, might work
+        }
+        
         setLoading(false);
       } catch (err) {
         console.error('Error loading PDF:', err);
@@ -35,6 +51,18 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
 
     loadPDF();
   }, [source]);
+
+  // Add timeout - if PDF takes too long, show browser option
+  useEffect(() => {
+    if (pdfUri && loading) {
+      const timeout = setTimeout(() => {
+        setShowBrowserOption(true);
+        setLoadingProgress('PDF is taking longer than expected. You can open it in your browser instead.');
+      }, 8000); // 8 second timeout
+
+      return () => clearTimeout(timeout);
+    }
+  }, [pdfUri, loading]);
 
   // Only use react-native-pdf on native platforms
   if (Platform.OS === 'web') {
@@ -50,7 +78,25 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     return (
       <View style={styles.centerContainer}>
         <ActivityIndicator size="large" color="#4CAF50" />
-        <Text style={styles.loadingText}>Loading PDF...</Text>
+        <Text style={styles.loadingText}>{loadingProgress}</Text>
+        {showBrowserOption && pdfUri && (
+          <>
+            <TouchableOpacity
+              style={styles.openButton}
+              onPress={() => {
+                Linking.openURL(pdfUri).catch(err => {
+                  console.error('Failed to open PDF:', err);
+                });
+              }}
+            >
+              <Ionicons name="open-outline" size={20} color="#fff" />
+              <Text style={styles.openButtonText}>Open in Browser Instead</Text>
+            </TouchableOpacity>
+            <Text style={styles.suggestionText}>
+              Or wait a bit longer for the in-app viewer
+            </Text>
+          </>
+        )}
       </View>
     );
   }
@@ -83,6 +129,14 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     );
   }
 
+  // Note: PDF.js in WebView can be slow due to:
+  // 1. CDN loading time for PDF.js library
+  // 2. Large PDF files taking time to download
+  // 3. Rendering performance on mobile devices
+  // 
+  // For better UX, we'll show a message with option to open in browser
+  // while also attempting to load in WebView in the background
+  
   // Use PDF.js to render PDF in WebView with lazy loading for better performance
   // Render first page immediately, then load others progressively
   const htmlContent = `
@@ -246,11 +300,25 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
               });
             }
 
+            // Add timeout for PDF.js loading
+            const loadTimeout = setTimeout(function() {
+              if (window.ReactNativeWebView) {
+                window.ReactNativeWebView.postMessage(JSON.stringify({
+                  type: 'PDF_TIMEOUT',
+                  message: 'PDF.js is taking too long to load'
+                }));
+              }
+            }, 10000); // 10 second timeout
+
             pdfjsLib.getDocument({
               url: pdfUrl,
               withCredentials: false,
-              verbosity: 0 // Reduce console logging for performance
+              verbosity: 0, // Reduce console logging for performance
+              httpHeaders: {
+                'Accept': 'application/pdf'
+              }
             }).promise.then(function(pdf) {
+              clearTimeout(loadTimeout);
               pdfDoc = pdf;
               numPages = pdf.numPages;
               
@@ -263,8 +331,9 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
               
               startLazyLoading();
             }).catch(function(error) {
+              clearTimeout(loadTimeout);
               console.error('Error loading PDF:', error);
-              container.innerHTML = '<div class="error">Error loading PDF. Please try opening in browser or switch to Markdown view.</div>';
+              container.innerHTML = '<div class="error">Error loading PDF: ' + error.message + '. Please try opening in browser or switch to Markdown view.</div>';
               if (window.ReactNativeWebView) {
                 window.ReactNativeWebView.postMessage(JSON.stringify({
                   type: 'PDF_ERROR',
@@ -280,6 +349,32 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
 
   return (
     <View style={styles.container}>
+      {/* Show browser option overlay while loading */}
+      {loading && (
+        <View style={styles.overlay}>
+          <View style={styles.overlayContent}>
+            <Ionicons name="document-text" size={48} color="#4CAF50" />
+            <Text style={styles.overlayTitle}>Loading PDF Viewer</Text>
+            <Text style={styles.overlayText}>
+              PDFs can take a moment to load.{'\n\n'}
+              For faster viewing, open in your browser:
+            </Text>
+            {pdfUri && (
+              <TouchableOpacity
+                style={styles.openButton}
+                onPress={() => {
+                  Linking.openURL(pdfUri).catch(err => {
+                    console.error('Failed to open PDF:', err);
+                  });
+                }}
+              >
+                <Ionicons name="open-outline" size={20} color="#fff" />
+                <Text style={styles.openButtonText}>Open in Browser</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        </View>
+      )}
       <WebView
         source={{ html: htmlContent }}
         style={styles.webview}
@@ -288,7 +383,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
           setError(null);
         }}
         onLoadEnd={() => {
-          setLoading(false);
+          // Keep loading state until first page is ready
         }}
         onError={(syntheticEvent) => {
           const { nativeEvent } = syntheticEvent;
@@ -303,7 +398,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
               // PDF document loaded, pages are rendering
               console.log('PDF document loaded, total pages:', data.totalPages);
             } else if (data.type === 'PDF_FIRST_PAGE_LOADED') {
-              // First page is ready - hide loading indicator
+              // First page is ready - hide loading overlay
               setLoading(false);
               if (onPageChange && data.totalPages) {
                 onPageChange(initialPage, data.totalPages);
@@ -316,6 +411,9 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
               }
             } else if (data.type === 'PDF_ERROR') {
               setError('Failed to load PDF: ' + (data.error || 'Unknown error'));
+              setLoading(false);
+            } else if (data.type === 'PDF_TIMEOUT') {
+              setError('PDF viewer is taking too long to load. Please try opening in browser.');
               setLoading(false);
             }
           } catch (e) {
@@ -392,5 +490,36 @@ const styles = StyleSheet.create({
     color: '#999',
     textAlign: 'center',
     fontStyle: 'italic',
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(245, 245, 245, 0.95)',
+    zIndex: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  overlayContent: {
+    alignItems: 'center',
+    padding: 20,
+    maxWidth: 300,
+  },
+  overlayTitle: {
+    marginTop: 16,
+    fontSize: 20,
+    fontWeight: '600',
+    color: '#333',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  overlayText: {
+    fontSize: 14,
+    color: '#666',
+    textAlign: 'center',
+    lineHeight: 20,
+    marginBottom: 20,
   },
 });

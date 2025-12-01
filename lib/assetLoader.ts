@@ -95,17 +95,50 @@ export const readAssetText = async (filepath: string): Promise<string> => {
     const uri = await getAssetUri(filepath);
     console.log('Fetching markdown from native:', uri);
     
-    const response = await fetch(uri);
-    if (!response.ok) {
-      console.error(`Failed to fetch ${uri}: ${response.status} ${response.statusText}`);
-      throw new Error(`Failed to load ${filepath}: ${response.status} ${response.statusText}`);
-    }
+    // Add timeout to fetch - increase for large files
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout for large files
     
-    const text = await response.text();
-    if (!text || text.length === 0) {
-      throw new Error(`Empty response for ${filepath}`);
+    try {
+      const response = await fetch(uri, {
+        signal: controller.signal,
+        headers: {
+          'Accept': 'text/markdown, text/plain, */*',
+        },
+      });
+      
+      clearTimeout(timeoutId);
+      
+      if (!response.ok) {
+        console.error(`Failed to fetch ${uri}: ${response.status} ${response.statusText}`);
+        throw new Error(`Failed to load ${filepath}: ${response.status} ${response.statusText}`);
+      }
+      
+      // Check content length for large files
+      const contentLength = response.headers.get('content-length');
+      if (contentLength) {
+        const sizeMB = parseInt(contentLength) / (1024 * 1024);
+        console.log(`File size: ${sizeMB.toFixed(2)} MB`);
+        if (sizeMB > 2) {
+          console.warn(`Large file detected (${sizeMB.toFixed(2)} MB), loading may take a moment...`);
+        }
+      }
+      
+      const text = await response.text();
+      if (!text || text.length === 0) {
+        throw new Error(`Empty response for ${filepath}`);
+      }
+      
+      const sizeMB = (text.length / (1024 * 1024)).toFixed(2);
+      console.log(`Successfully loaded ${filepath}, size: ${sizeMB} MB (${text.length} characters)`);
+      return text;
+    } catch (fetchError: any) {
+      clearTimeout(timeoutId);
+      if (fetchError.name === 'AbortError') {
+        throw new Error(`Request timeout: ${filepath} took too long to load. The file may be very large.`);
+      }
+      throw fetchError;
     }
-    return text;
   } catch (error) {
     console.error('Error reading asset:', error);
     console.error('Filepath that failed:', filepath);
