@@ -1,6 +1,8 @@
-import React from 'react';
-import { View, StyleSheet, Text, Platform } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Text, Platform, ActivityIndicator } from 'react-native';
+import { WebView } from 'react-native-webview';
 import { Ionicons } from '@expo/vector-icons';
+import { getAssetUri } from '../lib/assetLoader';
 
 interface PDFViewerProps {
   source: string; // Path relative to assets/books (e.g., "biblical/book.pdf")
@@ -14,6 +16,26 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
   onPageChange,
   initialPage = 1,
 }) => {
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [pdfUri, setPdfUri] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadPDF = async () => {
+      try {
+        const uri = await getAssetUri(source);
+        setPdfUri(uri);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error loading PDF:', err);
+        setError('Failed to load PDF');
+        setLoading(false);
+      }
+    };
+
+    loadPDF();
+  }, [source]);
+
   // Only use react-native-pdf on native platforms
   if (Platform.OS === 'web') {
     return (
@@ -24,16 +46,45 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     );
   }
 
-  // PDF viewer requires react-native-pdf which is only available in development builds
-  // In Expo Go, we show a fallback message
-  // TODO: Re-enable PDF viewing when using a development build
+  if (loading) {
+    return (
+      <View style={styles.centerContainer}>
+        <ActivityIndicator size="large" color="#4CAF50" />
+        <Text style={styles.loadingText}>Loading PDF...</Text>
+      </View>
+    );
+  }
+
+  if (error || !pdfUri) {
+    return (
+      <View style={styles.centerContainer}>
+        <Ionicons name="alert-circle" size={48} color="#f44336" />
+        <Text style={styles.errorText}>{error || 'PDF not found'}</Text>
+      </View>
+    );
+  }
+
+  // Use WebView to display PDF from Metro server
+  // This works in Expo Go without needing react-native-pdf
   return (
-    <View style={styles.centerContainer}>
-      <Ionicons name="document-text" size={48} color="#999" />
-      <Text style={styles.errorText}>
-        PDF viewer requires a development build.{'\n'}
-        Please create a development build to view PDFs, or switch to Markdown view.
-      </Text>
+    <View style={styles.container}>
+      <WebView
+        source={{ uri: pdfUri }}
+        style={styles.webview}
+        onLoadStart={() => setLoading(true)}
+        onLoadEnd={() => setLoading(false)}
+        onError={(syntheticEvent) => {
+          const { nativeEvent } = syntheticEvent;
+          console.error('WebView error:', nativeEvent);
+          setError('Failed to load PDF');
+          setLoading(false);
+        }}
+        // Enable PDF viewing in WebView
+        javaScriptEnabled={true}
+        domStorageEnabled={true}
+        startInLoadingState={true}
+        scalesPageToFit={true}
+      />
     </View>
   );
 };
@@ -43,9 +94,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
-  pdf: {
+  webview: {
     flex: 1,
-    width: '100%',
+    backgroundColor: '#f5f5f5',
   },
   centerContainer: {
     flex: 1,
@@ -54,10 +105,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f5f5f5',
     padding: 20,
   },
-  errorText: {
+  loadingText: {
     marginTop: 16,
     fontSize: 16,
     color: '#666',
+  },
+  errorText: {
+    marginTop: 16,
+    fontSize: 16,
+    color: '#f44336',
     textAlign: 'center',
     lineHeight: 24,
   },
