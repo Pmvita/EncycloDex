@@ -1,0 +1,43 @@
+# Quick Reference - PDF Text Extraction
+
+## Setup (One-time)
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+## Daily Usage
+
+### Method 1: Shell Script (Easiest)
+```bash
+./extract_pdf.sh "Ethiopian Bible.pdf"
+./extract_pdf.sh "112_books_Apocrypha.pdf"
+```
+
+### Method 2: Python Script
+```bash
+source venv/bin/activate
+python extract_pdf_text.py "Ethiopian Bible.pdf"
+deactivate
+```
+
+## Recreate Virtual Environment
+
+```bash
+deactivate                    # If venv is active
+rm -rf venv                   # Delete old venv
+python3 -m venv venv          # Create new venv
+source venv/bin/activate      # Activate
+pip install --upgrade pip     # Upgrade pip
+pip install -r requirements.txt  # Install dependencies
+```
+
+## Output
+
+- Extracted text files are saved as `.txt` files in the same directory
+- Default name: `[pdf_filename].txt`
+- Custom name: `python extract_pdf_text.py input.pdf output.txt`
+

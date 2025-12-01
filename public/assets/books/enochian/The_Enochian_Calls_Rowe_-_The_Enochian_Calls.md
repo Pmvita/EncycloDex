@@ -1,0 +1,895 @@
+# Rowe - The Enochian Calls
+---
+
+
+---
+
+## Page 1
+
+The
+Enochian
+Calls
+
+
+---
+
+## Page 2
+
+The First Call
+OL SONF VORSG GOHO IAD BALT
+OL SONF VORSG GOHO IAD BALT
+I Reign Over You, Sayeth The God Of Justice,
+LANSH CALZ VONPHO. SOBRA
+LANSH CALZ VONPHO. SOBRA
+In Power Exalted Above The Firmaments Of Wrath. In Whose
+ZOL ROR I TA NAZPSAD, OD GRAA
+ZOL ROR I TA NAZPSAD, OD GRAA
+Hands The Sun Is As A Sword, And The Moon
+TA MALPRG; DS HOLQ QAA
+TA MALPRG; DS HOLQ QAA
+As A Through-thrusting Fire; Which Measured Your Garments
+NOTHOA ZIMZ, OD COMMAH TA
+NOTHOA ZIMZ, OD COMMAH TA
+In The Midst Of My Vestures, And Trussed You Together As
+NOBLOH ZIEN. SOBA THIL GNONP
+NOBLOH ZIEN. SOBA THIL GNONP
+The Palms Of My Hands. Whose Seats I Garnished With
+PRGE ALDI DS VRBS OBOLEH
+PRGE ALDI DS VRBS OBOLEH
+The Fire Of Gathering And Beautified Your Garments
+GRSAM; CASARM OHORELA TABA PIR,
+GRSAM; CASARM OHORELA TABA PIR,
+With Admiration; To Whom I Made A Law To Govern The Holy Ones,
+DS ZONRENSG CAB ERM IADNAH.
+DS ZONRENSG CAB ERM IADNAH.
+And Delivered You A Rod With The Ark Of Knowledge.
+
+
+---
+
+## Page 3
+
+PILAH FARZM OD ZNRZA ADNA
+PILAH FARZM OD ZNRZA ADNA
+Moreover You Lifted Your Voices And Swore Obedience
+OD GONO IADPIL DS HOM OD TOH SOBA
+OD GONO IADPIL DS HOM OD TOH, SOBA
+And Faith To Him That Lives And Triumphs, Whose
+IAOD IPAM OD UL IPAMIS DS LOHOLO
+IAOD IPAM OD UL IPAMIS; DS LOHOLO
+Beginning Is Not Nor End Can Not Be; Which Shines
+VEP ZOMD POAMAL OD BOGPA
+VEP ZOMD POAMAL OD BOGPA
+As A Flame In The Midst Of Your Palace And Reigns
+AAI TA PIAP BALTOH OX VAOAN
+AAI TA PIAP BALTOH OD VAOAN
+Among You As The BalanceOf Righteousness And Truth!
+ZACAR CA OD ZAMRAN ODO CICLE
+ZACAR CA OD ZAMRAN ODO CICLE
+Move Therefore And Show Yourselves! Open The Mysteries
+QAA ZORGE LAP ZIRDO
+QAA ZORGE LAP ZIRDO
+Of Your Creation! Be Friendly To Me For I Am
+NOCO MAD HOATH IAIDA
+NOCO MAD HOATH IAIDA
+The Servant Of Your God A True Worshiper Of The Highest!
+
+
+---
+
+## Page 4
+
+The Second Call
+ADGT VPAAH ZONG OM FAAIP
+ADGT VPAAH ZONG OM FAAIP
+Can The Wings Of The Winds Understand Your Voices
+SALD VIV L SOBAM IALPRG
+SALD VIV L SOBAM IALPRG
+Of Wonder? O Ye, The Second First: Whom Burning Flames
+IZAZAS PIADPH CASARMA ABRAMG
+IZAZAS PIADPH CASARMA ABRAMG
+Have Framed In The Depths Of My Jaws; Whom I Have Prepared
+TA TALHO PARACLEDA Q TA LORSLQ
+TA TALHO PARACLEDA Q TA LORSLQ
+As Cups For A Wedding, Or As Flowers
+TURBS OOGE BALTOH GIVI CHIS
+TURBS OOGE BALTOH GIVI CHIS
+In Their Beauty For The Chamber Of Righteousness. Stronger Are
+LUSD ORRI OD MICALP CHIS
+LUSD ORRI OD MICALP CHIS
+Your Feet Than The Barren Stone, And Mightier Are
+BIA OZONGON LAP NOAN
+BIA OZONGON LAP NOAN
+Your Voices Than The Manifold Winds. For You Are Become
+TROF CORS TA GE OQ MANIN IAIDON
+TROF CORS TA GE OQ MANIN IAIDON
+A Building Such As Is Not, Except In The Mind Of The All-Powerful.
+TORZU GOHEL ZACAR CA CNOQOD
+TORZU GOHEL ZACAR CA CNOQOD
+Arise, Saith The First, Move Therefor Unto His Servant!
+
+
+---
+
+## Page 5
+
+ZAMRAN MICALZO OD OZAZM VRELP
+ZAMRAN MICALZO OD OZAZM VRELP
+Show Yourselves In Power And Make Me A Strong Seething,
+LAP ZIR IOIAD
+LAP ZIR IOIAD
+For I Am Of Him That Lives Forever!
+
+
+---
+
+## Page 6
+
+The Third Call
+MICMA GOHO IAD ZIR COMSELH AZIEN
+MICMA GOHO IAD ZIR COMSELH AZIEN
+Behold, Says Your God, I Am A Circle On Whose Hands
+BIAB OS LONDOH. NORZ CHIS OTHIL
+BIAB OS LONDOH. NORZ CHIS OTHIL
+Stand 12 Kingdoms. Six Are The Seats
+GIGIPAH UNDL CHIS TA PUIM Q
+GIGIPAH UNDL CHIS TA PUIM Q
+Of Living Breath; The Rest Are As Sharp Sickles Or
+MOSPLEH TELOCH QUIIN TOLTORG
+MOSPLEH TELOCH QUIIN TOLTORG
+The Horns Of Death, Wherein The Creatures Of Earth
+CHIS I CHISGE M OZIEN DS BRGDA
+CHIS I- CHISGE M OZIEN DS BRGDA
+Are And Are Not Except My Hands, Which Sleep
+OD TORZUL ILI EOL BALZARG OD
+OD TORZUL ILI EOL BALZARG OD
+And Shall Rise. In The Beginning I Made You Stewards And
+OD AALA THILN OS NETAAB DLUGA
+OD AALA THILN OS NETAAB DLUGA
+And Placed You In Seats 12 Of Government, Giving Unto
+VOMSARG LONSA CAPIMALI VORS CLA
+VOMSARG LONSA CAPIMALI VORS CLA
+Every One Of You Power Successively Over 456,
+HOMIL COCASB FAFEN IZIZOP
+HOMIL COCASB FAFEN IZIZOP
+The True Ages Of Time, To The Intent That, From Your Highest Vessels
+
+
+---
+
+## Page 7
+
+OD MIINOAG DE GNETAAB VAUN NANAEEL:
+OD MIINOAG DE GNETAAB VAUN NANAEEL:
+And The Corners Of Your Governments You Might Work My Power:
+PANPIR MALPIRGI PILD
+PANPIR MALPIRGI PILD
+Pouring Down The Fires Of Life And Increase Continually
+CAOSG. NOAN UNALAH BALT
+CAOSG. NOAN UNALAH BALT
+Upon The Earth. Thus You Are Become The Skirts Of Justice
+OD VOOAN.
+OD VOOAN.
+And Truth.
+DOOIAP MAD GOHOLOR, GOHUS, AMIRAN!
+DOOIAP MAD GOHOLOR, GOHUS, AMIRAN!
+In The Name Of Your God, Lift Up, I Say, Yourselves!
+MICMA IEHUSOZ CACACOM OD DOOAIN
+MICMA IEHUSOZ CACACOM OD DOOAIN
+Behold His Mercies Flourish And His Name
+NOAR MICAOLZ AAIOM CASARMG GOHIA
+NOAR MICAOLZ AAIOM CASARMG GOHIA
+Become Mighty Among Us! In Whom We Say:
+ZACAR, UNIGLAG, OD IMUAMAR PUGO
+ZACAR, UNIGLAG, OD IMUAMAR PUGO
+Move, Descend, And Apply Yourselves To Us As Unto
+PLAPLI ANANAEL QAAN
+PLAPLI ANANAEL QAAN
+Partakers Of The Secret Wisdom Of Your Creation.
+
+
+---
+
+## Page 8
+
+The Fourth Call
+OTHIL LASDI BABAGE OD DORPHA
+OTHIL LASDI BABAGE OD DORPHA
+I Have Set My Feet In The South And Looked About Me
+GOHOL: GCHISGE AVAVAGO CORMP
+GOHOL: GCHISGE AVAVAGO CORMP
+Saying: Are Not The Thunders Of Increase Numbered
+PD, DS SONF VIV DIU CASARMI OALI
+PD, DS SONF VIV DIU CASARMI OALI
+33 Which Reign In The Second Angle? Under Whom I Have Placed
+MAPM SOBAM AG CORMPO CRIP L;
+MAPM SOBAM AG CORMPO CRIP L;
+9639 Whom None Have Numbered But One;
+CASARMG CROODZI CHIS OD UGEG;
+CASARMG CROODZI CHIS OD UGEG;
+In Whom The Second Beginning Of Things Are And Wax Strong;
+DS T CAPIMALI CHIS CAPIMAON, OD
+DS T CAPIMALI CHIS CAPIMAON, OD
+Which Also Successively Are The Numbers Of Time, And
+LONSHIN CHIS TA LO CLA. TORZU
+LONSHIN CHIS TA LO CLA. TORZU
+Their Powers Are As The First 456. Arise,
+NOR QUASAHI OD F CAOSGA! BAGLE ZIR
+NOR QUASAHI OD F CAOSGA! BAGLE ZIR
+You Sons Of Pleasure And Visit The Earth! For I Am
+ENAY IAD DS I OD APILA DOOAIP
+ENAY IAD DS I OD APILA DOOAIP
+The Lord Your God, Which Is And Liveth! In The Name Of
+
+
+---
+
+## Page 9
+
+QAAL ZACAR OD ZAMRAN OBELISONG
+QAAL ZACAR OD ZAMRAN OBELISONG
+The Creator, Move And Show Yourselves As Pleasant Deliverers
+RESTEL AAI NOR MOLAP
+RESTEL AAI NOR MOLAP
+That You May Praise Him Among The Sons Of Men.
+
+
+---
+
+## Page 10
+
+The Fifth Call
+SAPAH ZIMII D DIV OD NOAS
+SAPAH ZIMII D DIV OD NOAS
+The Mighty Sounds Have Entered The Third Angle And Are Become
+TA QANIS ADROCH: DORPHAL
+TA QANIS ADROCH: DORPHAL
+As Olives In The Olive Mount: Looking With Gladness
+CAOSG OD FAONTS PERIPSOL
+CAOSG OD FAONTS PERIPSOL
+On The Earth, And Dwelling In The Brightness Of The Heavens
+TA BLIOR CASARM AMIPZI
+TA BLIOR CASARM AMIPZI
+As Continual Comforters. Unto Whom I Fastened
+NAZ ARTH AF OD DLUGAR ZIZOP ZLIDA
+NAZ ARTH AF OD DLUGAR ZIZOP ZLIDA
+Pillars Of Gladness 19 And Gave Them Vessels To Water
+CAOSGI TOLTORGI OD ZCHIS ESIASCH
+CAOSGI TOLTORGI OD ZCHIS ESIASCH
+The Earth With All Her Creatures. And They Are The Brothers Of
+L OD VIV OD IAOD THILD,
+L OD VIV OD IAOD THILD,
+The First And The Second, And The Beginning Of Their Own Seats,
+DS PERAL HUBAR PEOAL
+DS PERAL HUBAR PEOAL
+Which Are Garnished With Continual Burning Lamps 69636
+SOBA CORMFA CHIS TA LA ULS OD
+SOBA CORMFA CHIS TA LA ULS OD
+Whose Numbers Are As The First, The Ends, And
+
+
+---
+
+## Page 11
+
+QCOCASB CA NIIS OD DARBS QAAS
+QCOCASB CA NIIS OD DARBS QAAS
+The Contents Of Time! Therefor Come Ye, And Obey Your Creation!
+F ETHARZI OD BLIOR IAIAL EDNAS
+F ETHARZI OD BLIOR IAIAL EDNAS
+Visit Us In Peace And Comfort! Conclude Us As Receivers
+CICLES BAGLE IAD I L!
+CICLES BAGLE IAD I L!
+Of Your Mysteries. Why? Our Lord Is All One!
+
+
+---
+
+## Page 12
+
+The Sixth Call
+GAH S DIV CHIS EM MICAOLZ
+GAH S DIV CHIS EM MICAOLZ
+The Spirits Of The Fourth Angle Are Nine, Mighty
+PILZIN SOBAM EL HARG
+PILZIN SOBAM EL HARG
+In The Firmament Of Waters: Whom The First Hath Planted As
+MIR BABALON OD OBLOC SAMVELG
+MIR BABALON OD OBLOC SAMVELG
+A Torment To The Wicked And A Garland To The Righteous;
+DLUGAR MALPRG AR CAOSGI OD
+DLUGAR MALPRG AR CAOSGI OD
+Giving Unto Them Fiery Darts To Fan The Earth, And
+ACAM CANAL SOBA ELZAP F BLIARD
+ACAM CANAL SOBA ELZAP F BLIARD
+7699 Continual Workmen Whose Courses Visit With Comfort
+CAOSG OD CHIS ANETAB OD MIAM
+CAOSG OD CHIS ANETAB OD MIAM
+The Earth, And Are In Government And Continuance
+TA VIV OD D DARSAR SOLPETH
+TA VIV OD D DARSAR SOLPETH
+As The Second And The Third. Wherefore, Hearken
+BIEN BRITA OD ZACAM
+BIEN BRITA OD ZACAM
+Unto My Voice: I Have Talked Of You And I Move You
+GMICALZO SOBA HAATH TRIAN LUIAHE
+GMICALZO SOBA HAATH TRIAN LUIAHE
+In Power And Presence, Whose Works Shall Be A Song Of Honor
+OD ECRIN MAD QAAON
+OD ECRIN MAD QAAON
+And The Praise Of God In Your Creation.
+
+
+---
+
+## Page 14
+
+The Seventh Call
+RAAS I SALMAN PARADIZ OECRIMI AAI
+RAAS I SALMAN PARADIZ OECRIMI AAI
+The East Is A House Of Virgins Singing Praises Among
+IALPIRGAH QUIIN ENAY BUTMON
+IALPIRGAH QUIIN ENAY BUTMON
+The Flames Of First Glory: Wherein The Lord Hath Opened His Mouth,
+OD INOAS NI PARADIAL CASARMG
+OD INOAS NI PARADIAL CASARMG
+And They Are Become 28 Living Dwellings In Whom
+UGEAR CHIRLAN OD ZONAC
+UGEAR CHIRLAN OD ZONAC
+The Strength Of Men Rejoices. And They Are Appareled
+LUCIFTIAN CORS TA VAUL ZIRN
+LUCIFTIAN CORS TA VAUL ZIRN
+With Ornaments Of Brightness Such As Work Wonders
+TOL HAMI SOBA LONDOH OD MIAM CHIS TA
+TOL HAMI SOBA LONDOH OD MIAM CHIS TA
+On All Creatures. Whose Kingdoms And Continuance Are As
+D OD ES UMADEA OD PIBLIAR
+D OD ES UMADEA OD PIBLIAR
+The Third And Fourth, Strong Towers And Places Of Comfort,
+OTHIL RIT OD MIAM CNOQUOL RIT,
+OTHIL RIT OD MIAM CNOQUOL RIT,
+The Seats Of Mercy And Continuance. O You Servants Of Mercy,
+ZACAR ZAMRAN OECRIMI QAADAH OD
+ZACAR, ZAMRAN OECRIMI QAADAH OD
+Move, Appear Singing Praises Of The Creator, And
+
+
+---
+
+## Page 15
+
+OMICAOLZ AAIOM
+OMICAOLZ AAIOM
+Be Mighty Among Us!
+BAGLE PAPBOR IDLUGAM LONSHI
+BAGLE PAPBOR IDLUGAM LONSHI
+For To This Remembrance Is Given Power,
+OD UMPLIF UGEG BIGLIAD
+OD UMPLIF UGEG BIGLIAD
+And Our Strength Waxes Strong In Our Comforter!
+
+
+---
+
+## Page 16
+
+The Eighth Call
+BAZME LO I TA PIRIPSON OLN
+BAZME LO I TA PIRIPSON OLN
+The Midday, The First Is As The Third Heaven: Made Of
+NAZ AVABH OX CASARMG URAN CHIS UGEG
+NAZ AVABH OX CASARMG URAN CHIS UGEG
+Pillars Of Hiacynth 26, In Whom The Elders Are Become Strong.
+DS ABRAMG BALTOHA GOHO IAD
+DS ABRAMG BALTOHA GOHO IAD
+Which I Have Prepared For My Own Righteousness, Sayeth The Lord,
+SOBA MIAM TRIAN TA LOLCIS ABAI
+SOBA MIAM TRIAN TA LOLCIS ABAI
+Whose Long Continuance Shall Be As Bucklers To The Stooping
+VOVIN OD AZIAGIER RIOR
+VOVIN OD AZIAGIER RIOR
+Dragon, And Like Unto The Harvest Of A Widow.
+IRGIL CHIS DA DS PAAOX BUSD CAOSGO
+IRGIL CHIS DA DS PAAOX BUSD CAOSGO?
+How Many Are There Which Remain In The Glory Of The Earth?
+DS CHIS OD IPURAN TELOCH CACARG
+DS CHIS OD IPURAN TELOCH CACARG
+Which Are, And Shall Not See Death Until
+O SALMAN LONCHO OD VOVINA CARBAF
+O SALMAN LONCHO OD VOVINA CARBAF?
+This House Fall And The Dragon Sink?
+NIISO BAGLE AVAVAGO GOHON NIISO
+NIISO! BAGLE AVAVAGO GOHON! NIISO!
+Come Away! For The Thunders Have Spoken! Come Away!
+
+
+---
+
+## Page 17
+
+BAGLE MOMAO SIAION OD MABZA
+BAGLE MOMAO SIAION OD MABZA
+For The Crowns Of The Temple And The Coats of
+IADOIASMOMAR POILP
+IADOIASMOMAR POILP
+Him That Was, Is, And Shall Be Crowned Are Divided.
+NIIS ZAMRAN CIAOFI CAOSGO OD BLIORS
+NIIS ZAMRAN CIAOFI CAOSGO OD BLIORS
+Come, Appear To TheTerror Of The Earth, And To Our Comfort
+OD CORSI TA ABRAMIG
+OD CORSI TA ABRAMIG
+And Of Such As Are Prepared!
+
+
+---
+
+## Page 18
+
+The Ninth Call
+MICAOLI BRANSG PURGEL NAPTA IALPOR
+MICAOLI BRANSG PURGEL NAPTA IALPOR
+A Mighty Guard Of Fire With Two-edged Swords Flaming,
+DS BRIN EFAFAFE P VONPHO OLANI OD
+DS BRIN EFAFAFE P VONPHO OLANI OD
+Which Have Vials :8: Of Wrath For Two Times And
+OBZA SOBA UPAAH CHIS TATAN OD TRANAN
+OBZA SOBA UPAAH CHIS TATAN OD TRANAN
+A Half, Whose Wings Are Wormwood And The Marrow
+BALYE ALAR LUSDA SOBOLN OD CHIS
+BALYE ALAR LUSDA SOBOLN OD CHIS
+Of Salt, Have Settled Their Feet In The West And Are
+HOLQ CNOQUODI CIAI UNAL ALDON MOM
+HOLQ CNOQUODI CIAI UNAL ALDON MOM
+Measured With Their Ministers 9996. These Gather Up The Moss
+CAOSGO TA LAS OLLOR GNAY LIMLAL AMMA CHIIS
+CAOSGO TA LAS OLLOR GNAY LIMLAL AMMA CHIIS
+Of The Earth As The Rich Man Doth His Treasure. Cursed Are They
+SOBA MADRID ZCHIS OOANOAN CHIS AVINY DRILPI
+SOBA MADRID ZCHIS OOANOAN CHIS AVINY DRILPI
+Whose Iniquities They Are: In Their Eyes Are Millstones Greater
+CAOSGI OD BUTMONI PARM ZUMVI CNILA
+CAOSGI OD BUTMONI PARM ZUMVI CNILA
+Than The Earth, And From Their Mouths Run Seas Of Blood.
+DAZIZ ETHAMZ A-CHILDAO OD MIRC OZOL
+DAZIZ ETHAMZ A-CHILDAO OD MIRC OZOL
+Their Heads Are Covered With Diamond, And Upon Their Heads
+
+
+---
+
+## Page 19
+
+CHIS PIDIAI COLLAL
+CHIS PIDIAI COLLAL
+Are Marble Sleeves.
+ULCININ A-SOBAM UCIM BAGLE
+ULCININ A-SOBAM UCIM BAGLE
+Happy Is He On Whom They Frown Not: For Why?
+IAD BALTOH CHIRLAN PAR NIISO OD IP
+IAD BALTOH CHIRLAN PAR NIISO OD IP
+The God Of Righteousness Rejoices In Them! Come Away! And Not
+EFAFAFE BAGLE COCASB I CORS TA UNIG BLIOR
+EFAFAFE BAGLE COCASB I CORS TAUNIG BLIOR
+Your Viols: For The Time Is Such As Requires Comfort!
+
+
+---
+
+## Page 20
+
+The Tenth Call
+CORAXO CHIS CORMP OD BLANS
+CORAXO CHIS CORMP OD BLANS
+The Thunders Of Judgment & Wrath Are Numbered, And Are Harbored
+LUCAL AZIAZIOR PAEB SOBA LILONON
+LUCAL AZIAZIOR PAEB SOBA LILONON
+In The North In The Likeness Of An Oak, Whose Branches
+CHIS VIRQ OP EOPHAN OD RACLIR MAASI
+CHIS VIRQ OP EOPHAN OD RACLIR MAASI
+Are Nests 22 Of Lamentation And Weeping Laid Up
+BAGLE CAOSGI DS IALPON DOSIG OD BASGIM
+BAGLE CAOSGI DS IALPON DOSIG OD BASGIM
+For The Earth. Which Burn Night And Day,
+OD OXEX DAZIZ SIATRIS OD SALBROX
+OD OXEX DAZIZ SIATRIS OD SALBROX
+And Vomit Out The Heads Of Scorpions And Live Sulphur
+CINXIR FABOAN UNAL CHIS CONST DS DAOX
+CINXIR FABOAN UNAL CHIS CONST DS DAOX
+Mingled With Poison. These Are The Thunders Which 5678
+COCASB OL OANIO YOR EORS MICAOLI
+COCASB OL OANIO YOR EORS MICAOLI
+Times In The 24th Part Of A Moment Roar With An Hundred
+OL GIXYAX OD MATB COCASB PLOSI MOLUI
+OL GIXYAX OD MATB COCASB PLOSI MOLUI
+Mighty Earthquakes And A Thousand Times As Many Surges.
+DS PAGE LARAG OM DROLN MATORB COCASB
+DS PAGE LARAG OM DROLN MATORB COCASB
+Which Rest Not, Neither Know Any Echoing Time
+
+
+---
+
+## Page 21
+
+EMNA L PATRALX YOLCI MATB NOMIG
+EMNA L PATRALX YOLCI MATB NOMIG
+Here. One Rock Brings Forth A Thousand Even As
+MONONS OLORA GNAY ANGELARD OHIO OHIO OHIO
+MONONS OLORA GNAY ANGELARD OHIO OHIO OHIO
+The Heart Of Man Does His Thoughts: Woe, Woe, Woe,
+OHIO OHIO OHIO NOIB OHIO CAOSGON
+OHIO OHIO OHIO NOIB OHIO CAOSGON
+Woe, Woe, Woe, Yea, Woe To The Earth!
+BAGLE MADRID I ZIROP CHISO DRILPA
+BAGLE MADRID I ZIROP CHISO DRILPA
+For Her Iniquity Is, Was, And Shall Be Great!
+NIISO CRIP IP NIDALI
+NIISO CRIP IP NIDALI
+Come Away! But Not Your Noises!
+
+
+---
+
+## Page 22
+
+The Eleventh Call
+OXIAYAL HOLDO OD ZIROM O CORAXO DS
+OXIAYAL HOLDO OD ZIROM O CORAXO DS
+The Mighty Seat Groaned And They Were :5: Thunders Which
+ZILDAR RAASY OD VABZIR CAMLIAX OD
+ZILDAR RAASY OD VABZIR CAMLIAX OD
+Flew Into The East: And The Eagle spake And
+BAHAL NIISO
+BAHAL NIISO
+Cried With A Loud Voice: Come Away!
+OD ALDON SALMAN TELOCH
+OD ALDON SALMAN TELOCH
+And They Gathered Them Together In The House Of Death,
+CASARMAN HOLQ OD T I TA ZCHIS
+CASARMAN HOLQ OD T I TA ZCHIS
+Of Whom It Is Measured And It Is As They Are
+SOBA CORMF I GA NIISO BAGLE ABRAMG
+SOBA CORMF I GA NIISO BAGLE ABRAMG
+Whose Number Is 31. Come Away! For I Have Prepared
+NONCP ZACAR CA OD ZAMRAN ODO CICLE
+NONCP ZACAR CA OD ZAMRAN ODO CICLE
+For You! Move, Therefore And Appear! Open The Mysteries
+QAA ZORGE LAP ZIRDO NOCO MAD
+QAA ZORGE LAP ZIRDO NOCO MAD
+Of Your Creation! Be Friendly To Me, For I Am The ServantOf God,
+HOATH IAIDA
+HOATH IAIDA
+The True Worshiper Of The Highest!
+
+
+---
+
+## Page 23
+
+The Twelfth Call
+NONCI DS SONF BABAGE OD CHIS OB
+NONCI DS SONF BABAGE OD CHIS OB
+O You Which Reign In The South And Are 28,
+HUBARO TIBIBP ALLAR ATRAAH OD EF
+HUBARO TIBIBP ALLAR ATRAAH OD EF
+The Lanterns Of Sorrow: Bind Up Your Girdles And Visit Us!
+DRIX FAFEN MIAN AR ENAY OVOF
+DRIX FAFEN MIAN AR ENAY OVOF
+Bring Down Your Train 3663, That The Lord May Be Magnified
+SOBA DOOAIN AAI I VONPHO
+SOBA DOOAIN AAI I VONPHO
+Whose Name Among You Is Wrath!
+ZACAR GOHUS OD ZAMRAN ODO CICLE
+ZACAR GOHUS OD ZAMRAN ODO CICLE
+Move, I Say, And Appear! Open The Mysteries
+QAA ZORGE LAP ZIRDO
+QAA ZORGE LAP ZIRDO
+Of Your Creation! Be Friendly To Me, For I Am
+NOCO MAD HOATH IAIDA
+NOCO MAD HOATH IAIDA
+The Minister Of God, The True Worshiper Of The Highest!
+
+
+---
+
+## Page 24
+
+The Thirteenth Call
+NAPEAI BABAGEN DS BRIN VX OOAONA
+NAPEAI BABAGEN DS BRIN VX OOAONA
+O Ye Swords Of The South, Which Have 42 Eyes
+LRING VONPHO DOALIM EOLIS OLLOG ORSBA
+LRING VONPHO DOALIM EOLIS OLLOG ORSBA
+To Stir Up Wrath Of Sin, Making Men Drunken
+DS CHIS AFFA MICMA ISRO MAD
+DS CHIS AFFA MICMA ISRO MAD
+Which Are Empty: Behold The Promise Of God,
+OD LONSHI TOX DS IVMD AAI GROSB
+OD LONSHI TOX DS IVMD AAI GROSB
+And The Power Of Him Which Is Called Among You A Bitter Sting!
+ZACAR OD ZAMRAN ODO CICLE QAA
+ZACAR OD ZAMRAN ODO CICLE QAA
+Move And Appear! Open The Mysteries Of Your Creation!
+ZORGE LAP ZIRDO NOCO MAD
+ZORGE LAP ZIRDO NOCO MAD
+Be Friendly To Me, For I Am The Minister Of God
+HOATH IAIDA
+HOATH IAIDA
+The True Worshiper Of The Highest!
+
+
+---
+
+## Page 25
+
+The Fourteenth Call
+NOROMI BAGIE PASBS OIAD DS
+NOROMI BAGIE PASBS OIAD DS
+O You Sons Of Fury (and) The Daughters Of The Just: Which
+TRINT MIRC OL THIL DODS TOL HAMI
+TRINT MIRC OL THIL DODS TOL HAMI
+Sit Upon 24 Seats, Vexing All Living Creatures
+CAOSGO HOMIN DS BRIN OROCH QUAR
+CAOSGO HOMIN DS BRIN OROCH QUAR
+Of The Earth With Age; Which Have Under You 1636;
+MICMA BIAL OIAD AISRO TOX DS IVMD
+MICMA BIAL OIAD AISRO TOX DS IVMD
+Behold The Voice Of God, The Promise Of Him WhichIs Called
+AAI BALTIM
+AAI BALTIM
+Among You Fury, Or Extreme Justice!
+ZACAR OD ZAMRAN ODO CICLE QAA
+ZACAR OD ZAMRAN ODO CICLE QAA
+Move And Appear! Open The Mysteries Of Your Creation!
+ZORGE LAP ZIRDO NOCO MAD
+ZORGE LAP ZIRDO NOCO MAD
+Be Friendly To Me, For I Am The Minister Of God,
+HOATH IAIDA
+HOATH IAIDA
+The True Worshiper Of The Highest!
+
+
+---
+
+## Page 26
+
+The Fifteenth Call
+ILS TABAAM L IALPRT CASARMAN
+ILS TABAAM L IALPRT CASARMAN
+O Thou The Governor Of The First Flame, Under Whose
+VPAAH CHIS DARG DS OADO CAOSGI ORSCOR
+VPAAH CHIS DARG DS OADO CAOSGI ORSCOR
+Wings Are 6739 Which Weave The Earth With Dryness;
+DS OMAX MONASCI BAEOVIB OD EMETGIS
+DS OMAX MONASCI BAEOVIB OD EMETGIS
+Which Knowest The Great Name Righteousness, And The Seal
+IAIADIX ZACAR OD ZAMRAN ODO CICLE QAA
+IAIADIX ZACAR OD ZAMRAN ODO CICLE QAA
+Of Honor; Move And Appear! Open The Mysteries Your Creation!
+ZORGE LAP ZIRDO NOCO MAD
+ZORGE LAP ZIRDO NOCO MAD
+Be Friendly To Me, For I Am The Minister Of God,
+HOATH IAIDA
+HOATH IAIDA
+The True Worshiper Of The Highest!
+
+
+---
+
+## Page 27
+
+The Sixteenth Call
+ILS VIV IALPRT SALMAN BALT DS BRIN
+ILS VIV IALPRT SALMAN BALT DS BRIN
+O Thou Second Flame, The House Of Justice: Which Has
+ACROODZI BUSD OD BLIORAX BALIT DS
+ACROODZI BUSD OD BLIORAX BALIT DS
+Thy Beginning In Glory And Shall Comfort The Just; Which
+INSI CAOSG LUSDAN EMOD DS OM
+INSI CAOSG LUSDAN EMOD DS OM
+Walks The Earth With Feet 8763 That Understand
+OD TLIOB HAMI DRILPA GEH ILS
+OD TLIOB HAMI DRILPA GEH ILS
+And Separate Creatures; Great Art Thou
+MADZILODARP
+MADZILODARP
+In The God Of Stretch-Forth-And-Conquer!
+ZACAR OD ZAMRAN ODO CICLE QAA
+ZACAR OD ZAMRAN ODO CICLE QAA
+Move And Appear! Open The Mysteries Of Your Creation!
+ZORGE LAP ZIRDO NOCO MAD
+ZORGE LAP ZIRDO NOCO MAD
+Be Friendly To Me, For I Am The Minister Of God,
+HOATH IAIDA
+HOATH IAIDA
+The True Worshiper Of The Highest!
+
+
+---
+
+## Page 28
+
+The Seventeenth Call
+ILS D IALPRT SOBA VPAAH CHIS NANBA
+ILS D IALPRT SOBA VPAAH CHIS NANBA
+O Thou Third Flame Whose Wings Are Thorns
+ZIXLAY DODSIH OD BRIN FAXS HUBARO
+ZIXLAY DODSIH OD BRIN FAXS HUBARO
+To Stir Up Vexation, And Hast 7336 Living Lamps
+TUSTAX YLSI SOBA IAD I VONPOVNPH
+TUSTAX YLSI SOBA IAD I VONPOVNPH
+Going Before Thee; Whose God Is Wrath In Anger;
+ALDON DAXIL OD TOATAR
+ALDON DAXIL OD TOATAR
+Gird Up Thy Loins And Harken!
+ZACAR OD ZAMRAN ODO CICLE QAA
+ZACAR OD ZAMRAN ODO CICLE QAA
+Move And Appear! Open The Mysteries Of Your Creation!
+ZORGE LAP ZIRDO NOCO MAD
+ZORGE LAP ZIRDO NOCO MAD
+Be Friendly To Me, For I Am The Minister Of God,
+HOATH IAIDA
+HOATH IAIDA
+The True Worshiper Of The Highest!
+
+
+---
+
+## Page 29
+
+The Eighteenth Call
+ILS MICAOLZ OLPIRT OD IALPRG BLIORS
+ILS MICAOLZ OLPIRT OD IALPRG BLIORS
+O Thou Mighty Light And Burning Flame Of Comfort;
+DS ODO BUSDIR OIAD OVOARS CAOSGO
+DS ODO BUSDIR OIAD OVOARS CAOSGO
+Which Opens The Glory Of God To The Center Of The Earth;
+CASARMG LAIAD ERAN BRINTS CASASAM
+CASARMG LAIAD ERAN BRINTS CASASAM
+In Whom The Secrets Of Truth 6332 Have Their Abiding;
+DS IVMD ACLONDOH MOZ OD MAOFFAS
+DS IVMD ACLONDOH MOZ OD MAOFFAS
+Which Is Called In Thy Kingdom Joy, And Not To Be Measured:
+BOLP COMO BLIORT PAMBT
+BOLP COMO BLIORT PAMBT
+Be Thou A Window Of Comfort Unto Me!
+ZACAR OD ZAMRAN ODO CICLE QAA
+ZACAR OD ZAMRAN ODO CICLE QAA
+Move And Appear! Open The Mysteries Of Your Creation!
+ZORGE LAP ZIRDO NOCO MAD
+ZORGE LAP ZIRDO NOCO MAD
+Be Friendly To Me, For I Am The Minister Of God,
+HOATH IAIDA
+HOATH IAIDA
+The True Worshiper Of The Highest!
+
+
+---
+
+## Page 30
+
+The Call of the Thirty Aethyrs
+MADRIAX DS PRAF LIL CHIS MICAOLZ
+MADRIAX DS PRAF LIL CHIS MICAOLZ
+You Heavens Which Dwell The First Aire Are Mighty
+SAANIR CAOSGO OD FISIS BALZIZRAS IAIDA
+SAANIR CAOSGO OD FISIS BALZIZRAS IAIDA
+In The Parts Of The Earth, And Execute The Judgement Of The Highest!
+NONCA GOHULIM MICMA ADOIAN MAD
+NONCA GOHULIM MICMA ADOIAN MAD
+Unto You It Is Said: Behold The Face Of Your God,
+IAOD BLIORB SOBA OOAONA CHIS LUCIFTIAN
+IAOD BLIORB SOBA OOAONA CHIS LUCIFTIAN
+The Beginning Of Comfort; Whose Eyes Are TheBrightness
+PERIPSOL DS ABRAASSA NONCF NETAAIB
+PERIPSOL DS ABRAASSA NONCF NETAAIB
+Of The Heavens. Which Provided You For The Government
+CAOSGO OD TILB ADPHAHT DAMPLOZ TOOAT
+CAOSGO OD TILB ADPHAHT DAMPLOZ TOOAT
+Of The Earth And Her Unspeakable Variety, Furnishing
+NONCF GMICALZ OM LRASD TOFGLO MARB
+NONCF GMICALZ OM LRASD TOFGLO MARB
+You A Powerful Understanding To Dispose All Things According
+YARRY IDOIGO
+YARRY IDOIGO
+To The Providence Of Him That Sits On The Holy Throne,
+OD TORZULP IAODAF GOHOL CAOSGI
+OD TORZULP IAODAF GOHOL CAOSGI
+And Rose Up In The Beginning Saying: The Earth
+
+
+---
+
+## Page 31
+
+TABAORD SAANIR OD CHRISTEOS YRPOIL
+TABAORD SAANIR OD CHRISTEOS YRPOIL
+Let Her Be Governed By Her Parts, And Let There Be Division
+TIOBL BUSDIR TILB NOALN PAID ORSBA OD
+TIOBL BUSDIR TILB NOALN PAID ORSBA OD
+In Her, That The Glory Of Her May Be Always Drunken And
+DODRMNI ZYLNA LZAP TILB PARMGI
+DODRMNI ZYLNA ELZAP TILB PARMGI
+Vexed In Itself. The Course Of Her, Let It Run With
+PERIPSAX OD TA QURLST BOOAPIS
+PERIPSAX OD TA QURLST BOOAPIS
+The Heavens, And As A Handmaid Let Her Serve Them.
+L NIMB OUCHO SYMP OD CHRISTEOS
+L NIMB OUCHO SYMP OD CHRISTEOS
+One Season Let It Confound Another, And Let There Be
+AG TOLTORN MIRC Q TIOBL LEL TOL PAOMBD
+AG TOLTORN MIRC Q TIOBL LEL TOL PAOMBD
+No Creatures Upon Her Or In Her The Same. All Her Members
+DILZMO ASPIAN OD CHRISTEOS AG L
+DILZMO ASPIAN OD CHRISTEOS AG L
+Let Them Differ In Their Qualities And Let There Be No One
+TOLTORN PARACH ASYMP
+TOLTORN PARACH ASYMP
+Creature Equal With Another.
+CORDZIZ DODPAL OD FIFALZ
+CORDZIZ DODPAL OD FIFALZ
+The Reasoning Creatures Of Earth Let Them Vex And Weed Out
+L SMNAD OD FARGT BAMS
+L SMNAD OD FARGT BAMS
+One Another, And The Dwelling Places Let Them Forget
+
+
+---
+
+## Page 32
+
+OMAOAS CONISBRA OD AVAVOX TONUG
+OMAOAS CONISBRA OD AVAVOX TONUG
+Their Names. The Work Of Man And His Pomp, Let Them Be Defaced.
+ORSCA TLB NOASMI TABGES
+ORSCA TLB NOASMI TABGES
+The Buildings Of Him, Let Them Become Caves
+LEVITHMONG UNCHI OM TILB
+LEVITHMONG UNCHI OM TILB
+For The Beasts Of The Field. Confound The Understanding Of Her
+ORS BAGLE MOOOAH OL CORDZIZ
+ORS BAGLE MOOOAH OL CORDZIZ
+With Darkness. For Why? It Repenteth Me I Made Man.
+L CAPIMAO IXOMAXIP OD CA COCASB GOSAA
+L CAPIMAO IXOMAXIP OD CA COCASB GOSAA
+One While Let Her Be Known, And Another Time A Stranger.
+BAGLEN PI I TIANTA ABABALOND OD FAORGT
+BAGLEN PI I TIANTA ABABALOND OD FAORGT
+Because She Is The Bed Of An Harlot And The Dwelling Place
+TELOCVOVIM
+TELOCVOVIM
+Of Him That Is Fallen.
+MADRIIAX TORZU OADRIAX OROCHA
+MADRIIAX, ORZU OADRIAX OROCHA
+You Heavens, Arise! The Lower Heavens Underneath You,
+ABOAPRI TABAORI PRIAZ AR TABAORI
+ABOAPRI TABAORI PRIAZ AR TABAORI
+Let Them Serve You! Govern Those That Govern;
+ADRPAN CORS TA DOBIX YOLCAM PRIAZI
+ADRPAN CORS TA DOBIX YOLCAM PRIAZI
+Cast Down Such As Fall; Bring Forth With Those
+
+
+---
+
+## Page 33
+
+AR COAZIOR OD QUASB QTING
+AR COAZIOR OD QUASB QTING
+That Increase, And Destroy The Rotten!
+RIPIR PAAOXT SAGACOR UML OD PRDZAR
+RIPIR PAAOXT SAGACOR UML OD PRDZAR
+No Place Let It Remain In One Number: Add And Diminish
+CACRG AOIVEAE CORMPT TORZU ZACAR OD ZAMRAN
+CACRG AOIVEAE CORMPT TORZU ZACAR OD ZAMRAN
+Until The Stars Be Numbered. Arise, Move, And Appear
+ASPT SIBSI BUTMONA DS SURZAS
+ASPT SIBSI BUTMONA DS SURZAS
+Before The Covenant Of His Mouth, Which He Has Sworn
+TIA BALTAN ODO CICLE QAA
+TIA BALTAN ODO CICLE QAA
+Unto Us In His Justice! Open The Mysteries Of Your Creation,
+OD OZAZMA PLAPLI IADNAMAD
+OD OZAZMA PLAPLI IADNAMAD
+And Make Us Partakers Of Undefiled Knowledge!
+

@@ -1,0 +1,108 @@
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, ActivityIndicator, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { getAssetUri } from '../lib/assetLoader';
+
+interface PDFThumbnailProps {
+  source?: string; // Path relative to assets/books
+  categoryColor: string;
+  size?: number;
+}
+
+export const PDFThumbnail: React.FC<PDFThumbnailProps> = ({
+  source,
+  categoryColor,
+  size = 60,
+}) => {
+  const [loading, setLoading] = useState(true);
+  const [pdfUri, setPdfUri] = useState<string | null>(null);
+  const [showThumbnail, setShowThumbnail] = useState(false);
+
+  useEffect(() => {
+    if (!source) {
+      setLoading(false);
+      return;
+    }
+
+    const loadPDF = async () => {
+      try {
+        const uri = await getAssetUri(source);
+        setPdfUri(uri);
+        setShowThumbnail(true);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error loading PDF thumbnail:', err);
+        setLoading(false);
+      }
+    };
+
+    loadPDF();
+  }, [source]);
+
+  // Show loading state
+  if (loading) {
+    return (
+      <View style={[styles.container, { width: size, height: size, backgroundColor: categoryColor }]}>
+        <ActivityIndicator size="small" color="#fff" />
+      </View>
+    );
+  }
+
+  // Show PDF thumbnail if available and on native platform
+  if (showThumbnail && pdfUri && Platform.OS !== 'web' && source && (source.endsWith('.pdf') || source.includes('.pdf'))) {
+    try {
+      // Dynamically import react-native-pdf only on native platforms
+      const Pdf = require('react-native-pdf').default;
+      return (
+        <View style={[styles.thumbnailContainer, { width: size, height: size }]}>
+          <Pdf
+            source={{ uri: pdfUri, cache: true }}
+            page={1}
+            style={{ width: size, height: size }}
+            enablePaging={false}
+            enableRTL={false}
+            fitPolicy={0}
+            onLoadComplete={() => setLoading(false)}
+            onError={() => {
+              setShowThumbnail(false);
+              setLoading(false);
+            }}
+          />
+        </View>
+      );
+    } catch (err) {
+      // Fallback to icon if PDF component fails
+      return (
+        <View style={[styles.container, { width: size, height: size, backgroundColor: categoryColor }]}>
+          <Ionicons name="document-text" size={size * 0.5} color="#fff" />
+        </View>
+      );
+    }
+  }
+
+  // Fallback: Show document icon with category color background
+  return (
+    <View style={[styles.container, { width: size, height: size, backgroundColor: categoryColor }]}>
+      <Ionicons 
+        name={source?.endsWith('.md') ? 'document' : 'document-text'} 
+        size={size * 0.5} 
+        color="#fff" 
+      />
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    borderRadius: 6,
+    justifyContent: 'center',
+    alignItems: 'center',
+    overflow: 'hidden',
+  },
+  thumbnailContainer: {
+    borderRadius: 6,
+    overflow: 'hidden',
+    backgroundColor: '#f0f0f0',
+  },
+});
+
