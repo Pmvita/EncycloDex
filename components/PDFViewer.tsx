@@ -78,11 +78,24 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     );
   }
 
-  // Dynamically import react-native-pdf only on native platforms
-  let Pdf: any;
-  try {
-    Pdf = require('react-native-pdf').default;
-  } catch (err) {
+  // Check if react-native-pdf is available (only in development builds, not Expo Go)
+  // Use a function to safely check for the module
+  const getPdfComponent = () => {
+    try {
+      // Only try to require if we're on native and not web
+      if (Platform.OS === 'web') {
+        return null;
+      }
+      // This will fail in Expo Go, which is expected
+      return require('react-native-pdf').default;
+    } catch (err) {
+      return null;
+    }
+  };
+
+  const Pdf = getPdfComponent();
+  
+  if (!Pdf) {
     return (
       <View style={styles.centerContainer}>
         <Ionicons name="alert-circle" size={48} color="#f44336" />

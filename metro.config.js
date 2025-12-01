@@ -25,27 +25,41 @@ config.server = {
     return (req, res, next) => {
       // If request is for /assets/books/, serve from public directory
       if (req.url && req.url.startsWith('/assets/books/')) {
-        const filePath = path.join(__dirname, 'public', req.url);
-        // Decode URL-encoded path segments
-        const decodedPath = decodeURIComponent(filePath);
+        // Decode each path segment separately to handle spaces and special characters
+        const urlPath = req.url.substring('/assets/books/'.length); // Remove prefix
+        const segments = urlPath.split('/');
+        const decodedSegments = segments.map(seg => {
+          try {
+            return decodeURIComponent(seg);
+          } catch {
+            return seg;
+          }
+        });
+        const decodedPath = decodedSegments.join('/');
+        const filePath = path.join(__dirname, 'public', 'assets', 'books', decodedPath);
         
-        if (fs.existsSync(decodedPath)) {
-          const stat = fs.statSync(decodedPath);
+        if (fs.existsSync(filePath)) {
+          const stat = fs.statSync(filePath);
           if (stat.isFile()) {
             // Determine content type
             let contentType = 'application/octet-stream';
-            if (decodedPath.endsWith('.pdf')) {
+            if (filePath.endsWith('.pdf')) {
               contentType = 'application/pdf';
-            } else if (decodedPath.endsWith('.md')) {
+            } else if (filePath.endsWith('.md')) {
               contentType = 'text/markdown; charset=utf-8';
             }
             
             res.setHeader('Content-Type', contentType);
             res.setHeader('Content-Length', stat.size);
             res.setHeader('Cache-Control', 'public, max-age=31536000');
-            fs.createReadStream(decodedPath).pipe(res);
+            fs.createReadStream(filePath).pipe(res);
             return;
           }
+        } else {
+          // Log for debugging
+          console.error('File not found:', filePath);
+          console.error('Requested URL:', req.url);
+          console.error('Decoded path:', decodedPath);
         }
       }
       // Otherwise, use default middleware
