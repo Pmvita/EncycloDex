@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, ActivityIndicator, Text, TouchableOpacity } from 'react-native';
-import Pdf from 'react-native-pdf';
+import { View, StyleSheet, ActivityIndicator, Text, TouchableOpacity, Platform } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { getAssetUri } from '../lib/assetLoader';
 
@@ -21,7 +20,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
   const [currentPage, setCurrentPage] = useState(initialPage);
   const [totalPages, setTotalPages] = useState(0);
   const [pdfUri, setPdfUri] = useState<string | null>(null);
-  const pdfRef = useRef<Pdf>(null);
+  const pdfRef = useRef<any>(null);
 
   useEffect(() => {
     const loadPDF = async () => {
@@ -69,20 +68,43 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     );
   }
 
+  // Only use react-native-pdf on native platforms
+  if (Platform.OS === 'web') {
+    return (
+      <View style={styles.centerContainer}>
+        <Ionicons name="document" size={48} color="#999" />
+        <Text style={styles.errorText}>PDF viewer not available on web. Please use the web version.</Text>
+      </View>
+    );
+  }
+
+  // Dynamically import react-native-pdf only on native platforms
+  let Pdf: any;
+  try {
+    Pdf = require('react-native-pdf').default;
+  } catch (err) {
+    return (
+      <View style={styles.centerContainer}>
+        <Ionicons name="alert-circle" size={48} color="#f44336" />
+        <Text style={styles.errorText}>PDF viewer not available. Please create a development build.</Text>
+      </View>
+    );
+  }
+
   return (
     <View style={styles.container}>
       <Pdf
         ref={pdfRef}
         source={{ uri: pdfUri, cache: true }}
         style={styles.pdf}
-        onLoadComplete={(numberOfPages) => {
+        onLoadComplete={(numberOfPages: number) => {
           setTotalPages(numberOfPages);
           setLoading(false);
         }}
-        onPageChanged={(page, numberOfPages) => {
+        onPageChanged={(page: number, numberOfPages: number) => {
           handlePageChange(page, numberOfPages);
         }}
-        onError={(error) => {
+        onError={(error: any) => {
           console.error('PDF error:', error);
           setError('Error displaying PDF');
         }}

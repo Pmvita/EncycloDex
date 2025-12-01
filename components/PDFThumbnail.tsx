@@ -48,37 +48,12 @@ export const PDFThumbnail: React.FC<PDFThumbnailProps> = ({
     );
   }
 
-  // Show PDF thumbnail if available and on native platform
-  if (showThumbnail && pdfUri && Platform.OS !== 'web' && source && (source.endsWith('.pdf') || source.includes('.pdf'))) {
-    try {
-      // Dynamically import react-native-pdf only on native platforms
-      const Pdf = require('react-native-pdf').default;
-      return (
-        <View style={[styles.thumbnailContainer, { width: size, height: size }]}>
-          <Pdf
-            source={{ uri: pdfUri, cache: true }}
-            page={1}
-            style={{ width: size, height: size }}
-            enablePaging={false}
-            enableRTL={false}
-            fitPolicy={0}
-            onLoadComplete={() => setLoading(false)}
-            onError={() => {
-              setShowThumbnail(false);
-              setLoading(false);
-            }}
-          />
-        </View>
-      );
-    } catch (err) {
-      // Fallback to icon if PDF component fails
-      return (
-        <View style={[styles.container, { width: size, height: size, backgroundColor: categoryColor }]}>
-          <Ionicons name="document-text" size={size * 0.5} color="#fff" />
-        </View>
-      );
-    }
-  }
+  // PDF thumbnails disabled for now - they require react-native-pdf which needs a development build
+  // Always show icon fallback instead to avoid errors in Expo Go
+  // TODO: Re-enable PDF thumbnails when using a development build
+  // if (showThumbnail && pdfUri && Platform.OS !== 'web' && source && (source.endsWith('.pdf') || source.includes('.pdf'))) {
+  //   // PDF thumbnail code would go here
+  // }
 
   // Fallback: Show document icon with category color background
   return (
