@@ -83,9 +83,8 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     );
   }
 
-  // Use PDF.js to render PDF in WebView
-  // This works in Expo Go by embedding PDF.js in HTML
-  // Render all pages for better scrolling experience
+  // Use PDF.js to render PDF in WebView with lazy loading for better performance
+  // Render first page immediately, then load others progressively
   const htmlContent = `
     <!DOCTYPE html>
     <html>
@@ -130,6 +129,16 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
             padding: 40px 20px;
             font-size: 16px;
           }
+          .page-placeholder {
+            min-height: 800px;
+            background-color: #424242;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+          }
         </style>
       </head>
       <body>
@@ -140,53 +149,119 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
           (function() {
             const container = document.getElementById('pdf-container');
             const pdfUrl = '${pdfUri}';
+            let pdfDoc = null;
+            let numPages = 0;
+            let renderingQueue = [];
+            let isRendering = false;
+            
+            // Use lower scale for faster rendering - users can zoom
+            const SCALE = 1.2;
             
             pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-            pdfjsLib.getDocument({
-              url: pdfUrl,
-              withCredentials: false
-            }).promise.then(function(pdf) {
+            function renderPage(pageNum) {
+              if (!pdfDoc) return;
+              
+              return pdfDoc.getPage(pageNum).then(function(page) {
+                const viewport = page.getViewport({ scale: SCALE });
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+                canvas.id = 'page-' + pageNum;
+
+                const renderContext = {
+                  canvasContext: ctx,
+                  viewport: viewport
+                };
+                
+                return page.render(renderContext).promise.then(function() {
+                  // Find placeholder and replace it
+                  const placeholder = document.getElementById('placeholder-' + pageNum);
+                  if (placeholder) {
+                    placeholder.parentNode.replaceChild(canvas, placeholder);
+                  } else {
+                    container.appendChild(canvas);
+                  }
+                  
+                  // Notify React Native when first page is ready
+                  if (pageNum === 1 && window.ReactNativeWebView) {
+                    window.ReactNativeWebView.postMessage(JSON.stringify({
+                      type: 'PDF_FIRST_PAGE_LOADED',
+                      totalPages: numPages
+                    }));
+                  }
+                  
+                  // Process next in queue
+                  processQueue();
+                });
+              });
+            }
+            
+            function processQueue() {
+              if (isRendering || renderingQueue.length === 0) return;
+              
+              isRendering = true;
+              const pageNum = renderingQueue.shift();
+              
+              renderPage(pageNum).then(function() {
+                isRendering = false;
+                processQueue();
+              }).catch(function(error) {
+                console.error('Error rendering page ' + pageNum + ':', error);
+                isRendering = false;
+                processQueue();
+              });
+            }
+            
+            function startLazyLoading() {
               container.innerHTML = '';
               
-              // Render all pages
-              const numPages = pdf.numPages;
-              let pagesRendered = 0;
-              
-              function renderAllPages() {
-                for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-                  pdf.getPage(pageNum).then(function(page) {
-                    const viewport = page.getViewport({ scale: 1.5 });
-                    const canvas = document.createElement('canvas');
-                    const ctx = canvas.getContext('2d');
-                    canvas.height = viewport.height;
-                    canvas.width = viewport.width;
-
-                    const renderContext = {
-                      canvasContext: ctx,
-                      viewport: viewport
-                    };
-                    
-                    page.render(renderContext).promise.then(function() {
-                      container.appendChild(canvas);
-                      pagesRendered++;
-                      if (pagesRendered === numPages) {
-                        // All pages rendered
-                        if (window.ReactNativeWebView) {
-                          window.ReactNativeWebView.postMessage(JSON.stringify({
-                            type: 'PDF_LOADED',
-                            totalPages: numPages
-                          }));
-                        }
-                      }
-                    });
-                  }).catch(function(error) {
-                    console.error('Error rendering page ' + pageNum + ':', error);
-                  });
-                }
+              // Create placeholders for all pages
+              for (let i = 1; i <= numPages; i++) {
+                const placeholder = document.createElement('div');
+                placeholder.id = 'placeholder-' + i;
+                placeholder.className = 'page-placeholder';
+                placeholder.textContent = 'Loading page ' + i + '...';
+                container.appendChild(placeholder);
               }
               
-              renderAllPages();
+              // Render first page immediately
+              renderPage(1).then(function() {
+                // Add remaining pages to queue
+                for (let i = 2; i <= numPages; i++) {
+                  renderingQueue.push(i);
+                }
+                processQueue();
+                
+                // Notify when all pages are loaded
+                setTimeout(function() {
+                  if (window.ReactNativeWebView) {
+                    window.ReactNativeWebView.postMessage(JSON.stringify({
+                      type: 'PDF_LOADED',
+                      totalPages: numPages
+                    }));
+                  }
+                }, 100);
+              });
+            }
+
+            pdfjsLib.getDocument({
+              url: pdfUrl,
+              withCredentials: false,
+              verbosity: 0 // Reduce console logging for performance
+            }).promise.then(function(pdf) {
+              pdfDoc = pdf;
+              numPages = pdf.numPages;
+              
+              if (window.ReactNativeWebView) {
+                window.ReactNativeWebView.postMessage(JSON.stringify({
+                  type: 'PDF_DOCUMENT_LOADED',
+                  totalPages: numPages
+                }));
+              }
+              
+              startLazyLoading();
             }).catch(function(error) {
               console.error('Error loading PDF:', error);
               container.innerHTML = '<div class="error">Error loading PDF. Please try opening in browser or switch to Markdown view.</div>';
@@ -224,7 +299,17 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
         onMessage={(event) => {
           try {
             const data = JSON.parse(event.nativeEvent.data);
-            if (data.type === 'PDF_LOADED') {
+            if (data.type === 'PDF_DOCUMENT_LOADED') {
+              // PDF document loaded, pages are rendering
+              console.log('PDF document loaded, total pages:', data.totalPages);
+            } else if (data.type === 'PDF_FIRST_PAGE_LOADED') {
+              // First page is ready - hide loading indicator
+              setLoading(false);
+              if (onPageChange && data.totalPages) {
+                onPageChange(initialPage, data.totalPages);
+              }
+            } else if (data.type === 'PDF_LOADED') {
+              // All pages loaded (or at least queued)
               setLoading(false);
               if (onPageChange && data.totalPages) {
                 onPageChange(initialPage, data.totalPages);
