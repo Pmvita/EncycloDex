@@ -1,4 +1,361 @@
 {
-  "books": [],
-  "lastUpdated": 1764604257440
+  "books": [
+    {
+      "id": "biblical_112_books_apocrypha",
+      "title": "112 Books Apocrypha",
+      "categories": [
+        "Biblical"
+      ],
+      "pdfPath": "biblical/112 books Apocrypha/1._EthiopianBible_112_books_Apocrypha.pdf",
+      "markdownPath": "biblical/112 books Apocrypha/1._EthiopianBible_112_books_Apocrypha.md",
+      "folderName": "112 books Apocrypha"
+    },
+    {
+      "id": "biblical_515_apocrypha",
+      "title": "515 Apocrypha",
+      "categories": [
+        "Biblical"
+      ],
+      "markdownPath": "biblical/515 Apocrypha/1._EthiopianBible_515_Apocrypha.md",
+      "folderName": "515 Apocrypha"
+    },
+    {
+      "id": "biblical_515_apocrypha_by_edward_jones",
+      "title": "515 Apocrypha By Edward Jones",
+      "categories": [
+        "Biblical"
+      ],
+      "pdfPath": "biblical/515 Apocrypha by Edward Jones/1._EthiopianBible_515_Apocrypha_by_Edward_Jones.pdf",
+      "markdownPath": "biblical/515 Apocrypha by Edward Jones/1._EthiopianBible_515_Apocrypha_by_Edward_Jones.md",
+      "folderName": "515 Apocrypha by Edward Jones"
+    },
+    {
+      "id": "biblical_ethiopian_bible",
+      "title": "Ethiopian Bible",
+      "categories": [
+        "Biblical"
+      ],
+      "pdfPath": "biblical/Ethiopian Bible/Ethiopian Bible.pdf",
+      "markdownPath": "biblical/Ethiopian Bible/1._EthiopianBible_Ethiopian_Bible.md",
+      "folderName": "Ethiopian Bible"
+    },
+    {
+      "id": "biblical_quick_reference",
+      "title": "Quick Reference",
+      "categories": [
+        "Biblical"
+      ],
+      "markdownPath": "biblical/QUICK REFERENCE/1._EthiopianBible_QUICK_REFERENCE.md",
+      "folderName": "QUICK REFERENCE"
+    },
+    {
+      "id": "biblical_readme_pdf_extraction",
+      "title": "Readme Pdf Extraction",
+      "categories": [
+        "Biblical"
+      ],
+      "markdownPath": "biblical/README PDF EXTRACTION/1._EthiopianBible_README_PDF_EXTRACTION.md",
+      "folderName": "README PDF EXTRACTION"
+    },
+    {
+      "id": "biblical_revelation_of_genesis",
+      "title": "Revelation of Genesis",
+      "categories": [
+        "Biblical"
+      ],
+      "pdfPath": "biblical/Revelation of Genesis/Revelation_of_Genesis_Revelation_of_Genesis.pdf",
+      "markdownPath": "biblical/Revelation of Genesis/Revelation_of_Genesis_Revelation_of_Genesis.md",
+      "folderName": "Revelation of Genesis"
+    },
+    {
+      "id": "biblical_the_dead_sea_scrolls",
+      "title": "the Dead Sea Scrolls",
+      "categories": [
+        "Biblical"
+      ],
+      "pdfPath": "biblical/The Dead Sea Scrolls/The_Dead_Sea_Scrolls_The_Dead_Sea_Scrolls.pdf",
+      "markdownPath": "biblical/The Dead Sea Scrolls/The_Dead_Sea_Scrolls_The_Dead_Sea_Scrolls.md",
+      "folderName": "The Dead Sea Scrolls"
+    },
+    {
+      "id": "egyptian_emerald_tablets_of_thoth_the_atlantean",
+      "title": "Emerald Tablets of Thoth the Atlantean",
+      "categories": [
+        "Egyptian"
+      ],
+      "pdfPath": "egyptian/Emerald Tablets of Thoth the Atlantean/Emerald_Tablets_of_Thoth_Emerald_Tablets_of_Thoth_the_Atlantean.pdf",
+      "markdownPath": "egyptian/Emerald Tablets of Thoth the Atlantean/Emerald_Tablets_of_Thoth_Emerald_Tablets_of_Thoth_the_Atlantean.md",
+      "folderName": "Emerald Tablets of Thoth the Atlantean"
+    },
+    {
+      "id": "egyptian_the_egyptian_book_of_dead",
+      "title": "the Egyptian Book of Dead",
+      "categories": [
+        "Egyptian"
+      ],
+      "pdfPath": "egyptian/The Egyptian Book of Dead/The_Egyptian_Book_of_the_Dead_The_Egyptian_Book_of_the_Dead.pdf",
+      "markdownPath": "egyptian/The Egyptian Book of Dead/The_Egyptian_Book_of_the_Dead_The_Egyptian_Book_of_the_Dead.md",
+      "folderName": "The Egyptian Book of Dead"
+    },
+    {
+      "id": "enochian_enochian_magick_reference",
+      "title": "Enochian Magick Reference",
+      "categories": [
+        "Enochian"
+      ],
+      "pdfPath": "enochian/Enochian Magick Reference/Enochian_Magick_Reference_Enochian_Magick_Reference.pdf",
+      "markdownPath": "enochian/Enochian Magick Reference/Enochian_Magick_Reference_Enochian_Magick_Reference.md",
+      "folderName": "Enochian Magick Reference"
+    },
+    {
+      "id": "enochian_the_enochian_calls_rowe__",
+      "title": "the Enochian Calls Rowe -",
+      "categories": [
+        "Enochian"
+      ],
+      "pdfPath": "enochian/The Enochian Calls Rowe -/The_Enochian_Calls_Rowe_-_The_Enochian_Calls.pdf",
+      "markdownPath": "enochian/The Enochian Calls Rowe -/The_Enochian_Calls_Rowe_-_The_Enochian_Calls.md",
+      "folderName": "The Enochian Calls Rowe -"
+    },
+    {
+      "id": "hermetic_777___alister_crowley",
+      "title": "777 - Alister Crowley",
+      "categories": [
+        "Hermetic"
+      ],
+      "pdfPath": "hermetic/777 - Alister Crowley/777_777_-_Alister_Crowley.pdf",
+      "markdownPath": "hermetic/777 - Alister Crowley/777_777_-_Alister_Crowley.md",
+      "folderName": "777 - Alister Crowley"
+    },
+    {
+      "id": "hermetic_book_of_the_law_quick_reference",
+      "title": "Book of the Law Quick Reference",
+      "categories": [
+        "Hermetic"
+      ],
+      "markdownPath": "hermetic/Book of The Law QUICK REFERENCE/Book_of_The_Law_QUICK_REFERENCE.md",
+      "folderName": "Book of The Law QUICK REFERENCE"
+    },
+    {
+      "id": "hermetic_book_of_the_law_readme_pdf_extraction",
+      "title": "Book of the Law Readme Pdf Extraction",
+      "categories": [
+        "Hermetic"
+      ],
+      "markdownPath": "hermetic/Book of The Law README PDF EXTRACTION/Book_of_The_Law_README_PDF_EXTRACTION.md",
+      "folderName": "Book of The Law README PDF EXTRACTION"
+    },
+    {
+      "id": "hermetic_book_of_the_law_by_aleister_crowley",
+      "title": "Book of the Law By Aleister Crowley",
+      "categories": [
+        "Hermetic"
+      ],
+      "pdfPath": "hermetic/Book of The Law by Aleister Crowley/Book_of_The_Law_The_Book_of_The_Law_by_Aleister_Crowley.pdf",
+      "markdownPath": "hermetic/Book of The Law by Aleister Crowley/Book_of_The_Law_The_Book_of_The_Law_by_Aleister_Crowley.md",
+      "folderName": "Book of The Law by Aleister Crowley"
+    },
+    {
+      "id": "hermetic_the_book_of_abramelin",
+      "title": "the Book of Abramelin",
+      "categories": [
+        "Hermetic"
+      ],
+      "pdfPath": "hermetic/The Book Of Abramelin/The_Book_Of_Abramelin_The_Book_Of_Abramelin.pdf",
+      "markdownPath": "hermetic/The Book Of Abramelin/The_Book_Of_Abramelin_The_Book_Of_Abramelin.md",
+      "folderName": "The Book Of Abramelin"
+    },
+    {
+      "id": "hermetic_the_kybalion_a_study_of_hermetic_philosophy_ancient_egypt_and_greece___quick_reference",
+      "title": "the Kybalion a Study of Hermetic Philosophy Ancient Egypt And Greece . Quick Reference",
+      "categories": [
+        "Hermetic"
+      ],
+      "markdownPath": "hermetic/The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece . QUICK REFERENCE/The_Kybalion_A_Study_Of_The_Hermetic_Philosophy_Of_Ancient_Egypt_And_Greece_._QUICK_REFERENCE.md",
+      "folderName": "The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece . QUICK REFERENCE"
+    },
+    {
+      "id": "hermetic_the_kybalion_a_study_of_hermetic_philosophy_ancient_egypt_and_greece___readme_pdf_extraction",
+      "title": "the Kybalion a Study of Hermetic Philosophy Ancient Egypt And Greece . Readme Pdf Extraction",
+      "categories": [
+        "Hermetic"
+      ],
+      "markdownPath": "hermetic/The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece . README PDF EXTRACTION/The_Kybalion_A_Study_Of_The_Hermetic_Philosophy_Of_Ancient_Egypt_And_Greece_._README_PDF_EXTRACTION.md",
+      "folderName": "The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece . README PDF EXTRACTION"
+    },
+    {
+      "id": "hermetic_the_kybalion_a_study_of_hermetic_philosophy_ancient_egypt_and_greece___by_three_initiates",
+      "title": "the Kybalion a Study of Hermetic Philosophy Ancient Egypt And Greece . By Three Initiates",
+      "categories": [
+        "Hermetic"
+      ],
+      "pdfPath": "hermetic/The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece . by Three Initiates/The_Kybalion_A_Study_Of_The_Hermetic_Philosophy_Of_Ancient_Egypt_And_Greece_._The_Kybalion_a_study_of_the_hermetic_philosophy_of_ancient_Egypt_and_Greece_by_Three_Initiates_.pdf",
+      "folderName": "The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece . by Three Initiates"
+    },
+    {
+      "id": "hermetic_the_kybalion_a_study_of_hermetic_philosophy_ancient_egypt_and_greece_quick_reference",
+      "title": "the Kybalion a Study of Hermetic Philosophy Ancient Egypt And Greece Quick Reference",
+      "categories": [
+        "Hermetic"
+      ],
+      "markdownPath": "hermetic/The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece QUICK REFERENCE/The_Kybalion_A_Study_Of_The_Hermetic_Philosophy_Of_Ancient_Egypt_And_Greece_QUICK_REFERENCE.md",
+      "folderName": "The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece QUICK REFERENCE"
+    },
+    {
+      "id": "hermetic_the_kybalion_a_study_of_hermetic_philosophy_ancient_egypt_and_greece_readme_pdf_extraction",
+      "title": "the Kybalion a Study of Hermetic Philosophy Ancient Egypt And Greece Readme Pdf Extraction",
+      "categories": [
+        "Hermetic"
+      ],
+      "markdownPath": "hermetic/The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece README PDF EXTRACTION/The_Kybalion_A_Study_Of_The_Hermetic_Philosophy_Of_Ancient_Egypt_And_Greece_README_PDF_EXTRACTION.md",
+      "folderName": "The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece README PDF EXTRACTION"
+    },
+    {
+      "id": "hermetic_the_kybalion_a_study_of_hermetic_philosophy_ancient_egypt_and_greece_by_three_initiates",
+      "title": "the Kybalion a Study of Hermetic Philosophy Ancient Egypt And Greece By Three Initiates",
+      "categories": [
+        "Hermetic"
+      ],
+      "pdfPath": "hermetic/The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece by Three Initiates/The_Kybalion_A_Study_Of_The_Hermetic_Philosophy_Of_Ancient_Egypt_And_Greece_The_Kybalion_a_study_of_the_hermetic_philosophy_of_ancient_Egypt_and_Greece_by_Three_Initiates_.pdf",
+      "markdownPath": "hermetic/The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece by Three Initiates/The_Kybalion_A_Study_Of_The_Hermetic_Philosophy_Of_Ancient_Egypt_And_Greece_The_Kybalion_a_study_of_the_hermetic_philosophy_of_ancient_Egypt_and_Greece_by_Three_Initiates_.md",
+      "folderName": "The Kybalion A Study Of Hermetic Philosophy Ancient Egypt And Greece by Three Initiates"
+    },
+    {
+      "id": "kabbalah_sepher_s_ha_zohar___sifra_detzniyutha",
+      "title": "Sepher S Ha Zohar - Sifra Detzniyutha",
+      "categories": [
+        "Kabbalah"
+      ],
+      "pdfPath": "kabbalah/Sepher s Ha Zohar - Sifra Detzniyutha/Sepher_s_Sepher_Ha_Zohar_-_Sifra_Detzniyutha.pdf",
+      "markdownPath": "kabbalah/Sepher s Ha Zohar - Sifra Detzniyutha/Sepher_s_Sepher_Ha_Zohar_-_Sifra_Detzniyutha.md",
+      "folderName": "Sepher s Ha Zohar - Sifra Detzniyutha"
+    },
+    {
+      "id": "kabbalah_sepher_s_ha_bahir",
+      "title": "Sepher S Ha-bahir",
+      "categories": [
+        "Kabbalah"
+      ],
+      "pdfPath": "kabbalah/Sepher s Ha-Bahir/Sepher_s_Sepher_Ha-Bahir.pdf",
+      "markdownPath": "kabbalah/Sepher s Ha-Bahir/Sepher_s_Sepher_Ha-Bahir.md",
+      "folderName": "Sepher s Ha-Bahir"
+    },
+    {
+      "id": "kabbalah_sepher_s_sephiroth",
+      "title": "Sepher S Sephiroth",
+      "categories": [
+        "Kabbalah"
+      ],
+      "pdfPath": "kabbalah/Sepher s Sephiroth/Sepher_s_Sepher_Sephiroth.pdf",
+      "markdownPath": "kabbalah/Sepher s Sephiroth/Sepher_s_Sepher_Sephiroth.md",
+      "folderName": "Sepher s Sephiroth"
+    },
+    {
+      "id": "kabbalah_sepher_s_yetzirah___westcott",
+      "title": "Sepher S Yetzirah - Westcott",
+      "categories": [
+        "Kabbalah"
+      ],
+      "pdfPath": "kabbalah/Sepher s Yetzirah - Westcott/Sepher_s_Sepher_Yetzirah_-_Westcott.pdf",
+      "markdownPath": "kabbalah/Sepher s Yetzirah - Westcott/Sepher_s_Sepher_Yetzirah_-_Westcott.md",
+      "folderName": "Sepher s Yetzirah - Westcott"
+    },
+    {
+      "id": "kabbalah_the_tree_of_life_1968___regardie_israel",
+      "title": "the Tree of Life 1968 - Regardie Israel",
+      "categories": [
+        "Kabbalah"
+      ],
+      "pdfPath": "kabbalah/The Tree Of Life 1968 - Regardie Israel/The_Tree_Of_Life_1968_The_Tree_Of_Life_-_Regardie_Israel.pdf",
+      "markdownPath": "kabbalah/The Tree Of Life 1968 - Regardie Israel/The_Tree_Of_Life_1968_The_Tree_Of_Life_-_Regardie_Israel.md",
+      "folderName": "The Tree Of Life 1968 - Regardie Israel"
+    },
+    {
+      "id": "other_a_manual_of_xxx_magick_sex",
+      "title": "a Manual of Xxx Magick Sex",
+      "categories": [
+        "Other"
+      ],
+      "pdfPath": "other/A Manual of XXX Magick Sex/A_Manual_of_XXX_Magick_A_Manual_of_Sex_Magick.pdf",
+      "markdownPath": "other/A Manual of XXX Magick Sex/A_Manual_of_XXX_Magick_A_Manual_of_Sex_Magick.md",
+      "folderName": "A Manual of XXX Magick Sex"
+    },
+    {
+      "id": "other_book_of_power___idres_shah",
+      "title": "Book of Power - Idres Shah",
+      "categories": [
+        "Other"
+      ],
+      "pdfPath": "other/Book Of Power - Idres Shah/Book_Of_Power_Book_Of_Power_-_Idres_Shah.pdf",
+      "markdownPath": "other/Book Of Power - Idres Shah/Book_Of_Power_Book_Of_Power_-_Idres_Shah.md",
+      "folderName": "Book Of Power - Idres Shah"
+    },
+    {
+      "id": "other_necronomicon_spellbook",
+      "title": "Necronomicon Spellbook",
+      "categories": [
+        "Other"
+      ],
+      "pdfPath": "other/Necronomicon Spellbook/Necronomicon_Spellbook_Necronomicon_Spellbook.pdf",
+      "markdownPath": "other/Necronomicon Spellbook/Necronomicon_Spellbook_Necronomicon_Spellbook.md",
+      "folderName": "Necronomicon Spellbook"
+    },
+    {
+      "id": "solomonic_3__greater_key_of_solomon_quick_reference",
+      "title": "3. Greater Key of Solomon Quick Reference",
+      "categories": [
+        "Solomonic"
+      ],
+      "markdownPath": "solomonic/3. Greater Key of Solomon QUICK REFERENCE/3._Greater_Key_of_Solomon_QUICK_REFERENCE.md",
+      "folderName": "3. Greater Key of Solomon QUICK REFERENCE"
+    },
+    {
+      "id": "solomonic_3__greater_key_of_solomon_readme_pdf_extraction",
+      "title": "3. Greater Key of Solomon Readme Pdf Extraction",
+      "categories": [
+        "Solomonic"
+      ],
+      "markdownPath": "solomonic/3. Greater Key of Solomon README PDF EXTRACTION/3._Greater_Key_of_Solomon_README_PDF_EXTRACTION.md",
+      "folderName": "3. Greater Key of Solomon README PDF EXTRACTION"
+    },
+    {
+      "id": "solomonic_3__greater_key_of_solomon_solomon_2",
+      "title": "3. Greater Key of Solomon Solomon-2",
+      "categories": [
+        "Solomonic"
+      ],
+      "pdfPath": "solomonic/3. Greater Key of Solomon Solomon-2/3._Greater_Key_of_Solomon_Greater_Key_of_Solomon-2.pdf",
+      "markdownPath": "solomonic/3. Greater Key of Solomon Solomon-2/3._Greater_Key_of_Solomon_Greater_Key_of_Solomon-2.md",
+      "folderName": "3. Greater Key of Solomon Solomon-2"
+    },
+    {
+      "id": "solomonic_4__lesser_key_of_solomon",
+      "title": "4. Lesser Key of Solomon",
+      "categories": [
+        "Solomonic"
+      ],
+      "pdfPath": "solomonic/4. Lesser Key of Solomon/4._Lesser_Key_of_Solomon_Lesser_Key_of_Solomon.pdf",
+      "markdownPath": "solomonic/4. Lesser Key of Solomon/4._Lesser_Key_of_Solomon_Lesser_Key_of_Solomon.md",
+      "folderName": "4. Lesser Key of Solomon"
+    },
+    {
+      "id": "solomonic_4__lesser_key_of_solomon_quick_reference",
+      "title": "4. Lesser Key of Solomon Quick Reference",
+      "categories": [
+        "Solomonic"
+      ],
+      "markdownPath": "solomonic/4. Lesser Key of Solomon QUICK REFERENCE/4._Lesser_Key_of_Solomon_QUICK_REFERENCE.md",
+      "folderName": "4. Lesser Key of Solomon QUICK REFERENCE"
+    },
+    {
+      "id": "solomonic_4__lesser_key_of_solomon_readme_pdf_extraction",
+      "title": "4. Lesser Key of Solomon Readme Pdf Extraction",
+      "categories": [
+        "Solomonic"
+      ],
+      "markdownPath": "solomonic/4. Lesser Key of Solomon README PDF EXTRACTION/4._Lesser_Key_of_Solomon_README_PDF_EXTRACTION.md",
+      "folderName": "4. Lesser Key of Solomon README PDF EXTRACTION"
+    }
+  ],
+  "lastUpdated": 1764607565422
 }
