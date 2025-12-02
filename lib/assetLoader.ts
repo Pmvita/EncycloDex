@@ -1,6 +1,7 @@
 import * as FileSystem from 'expo-file-system/legacy';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
+import * as Updates from 'expo-updates';
 
 /**
  * Get the URI for an asset file
@@ -19,7 +20,7 @@ export const getAssetUri = async (filepath: string): Promise<string> => {
   }
 
   // For native platforms, fetch from Metro dev server (same as web during development)
-  // In production, files would need to be copied to document directory or bundled
+  // In production builds with EAS Updates, use the Updates API
   const encodedPath = filepath.split('/').map(segment => encodeURIComponent(segment)).join('/');
   
   if (__DEV__) {
@@ -38,8 +39,23 @@ export const getAssetUri = async (filepath: string): Promise<string> => {
     return `${baseUrl}/assets/books/${encodedPath}`;
   }
   
-  // In production, we'd need files in document directory or bundled
-  // For now, return empty (this will need to be handled differently in production)
+  // In production builds with EAS Updates, use the Updates API to get asset URL
+  if (Updates.isEnabled && Updates.updateId) {
+    // Use the Updates API to get the asset URL
+    const updatesUrl = Updates.url || '';
+    if (updatesUrl) {
+      // Construct URL for assets served by EAS Updates
+      return `${updatesUrl}/assets/books/${encodedPath}`;
+    }
+  }
+  
+  // Fallback: try to use the manifest URL if available
+  if (Constants.expoConfig?.hostUri) {
+    return `https://${Constants.expoConfig.hostUri}/assets/books/${encodedPath}`;
+  }
+  
+  // Last resort: return empty (will show error, but won't crash)
+  console.warn('Could not determine asset URL for production build:', filepath);
   return '';
 };
 
