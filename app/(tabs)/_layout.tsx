@@ -61,8 +61,16 @@ export default function TabsLayout() {
     );
   } catch (error) {
     console.error('TabsLayout: Error:', error);
-    // Return a simple view if Tabs fails
-    return null;
+    // Return a simple view if Tabs fails - never return null
+    const { View, Text, StyleSheet } = require('react-native');
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#fff' }}>
+        <Text style={{ fontSize: 18, color: '#f44336' }}>Navigation Error</Text>
+        <Text style={{ fontSize: 14, color: '#666', marginTop: 8 }}>
+          {error instanceof Error ? error.message : 'Unknown error'}
+        </Text>
+      </View>
+    );
   }
 }
 

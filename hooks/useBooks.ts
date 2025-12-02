@@ -7,19 +7,44 @@ export const useBooks = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const loadBooks = () => {
+    let isMounted = true;
+    
+    const loadBooks = async () => {
       try {
+        // Add small delay to ensure component is mounted
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        if (!isMounted) return;
+        
         const allBooks = getBooks();
-        console.log('Loaded books:', allBooks.length);
-        setBooks(allBooks);
+        console.log('useBooks: Loaded', allBooks.length, 'books');
+        
+        if (isMounted) {
+          setBooks(allBooks);
+          setLoading(false);
+        }
       } catch (error) {
-        console.error('Error loading books:', error);
-      } finally {
-        setLoading(false);
+        console.error('useBooks: Error loading books:', error);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
     loadBooks();
+    
+    // Safety timeout - force loading to false after 2 seconds
+    const timeout = setTimeout(() => {
+      if (isMounted) {
+        console.warn('useBooks: Loading timeout - forcing loading to false');
+        setLoading(false);
+      }
+    }, 2000);
+
+    return () => {
+      isMounted = false;
+      clearTimeout(timeout);
+    };
   }, []);
 
   return { books, loading };

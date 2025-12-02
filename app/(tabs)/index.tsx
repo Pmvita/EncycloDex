@@ -17,6 +17,18 @@ export default function HomeScreen() {
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [bookProgress, setBookProgress] = useState<Record<string, number>>({});
   const [hasError, setHasError] = useState(false);
+  const [forceRender, setForceRender] = useState(false);
+  
+  // Force render after 3 seconds if still loading
+  useEffect(() => {
+    if (loading) {
+      const timeout = setTimeout(() => {
+        console.warn('HomeScreen: Force rendering after timeout');
+        setForceRender(true);
+      }, 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [loading]);
 
   // Always log for debugging
   useEffect(() => {
@@ -98,11 +110,15 @@ export default function HomeScreen() {
   }
 
   // Always ensure we render something, even if there's an error
-  if (loading) {
-    console.log('HomeScreen: Showing loading state');
+  // Force render if loading takes too long
+  const shouldShowContent = !loading || forceRender;
+  
+  if (!shouldShowContent) {
+    console.log('HomeScreen: Showing loading state, loading:', loading, 'forceRender:', forceRender);
     return (
-      <View style={styles.centerContainer}>
-        <Text>Loading books...</Text>
+      <View style={[styles.centerContainer, { backgroundColor: '#fff' }]}>
+        <Text style={styles.loadingText}>Loading EncycloDex...</Text>
+        <Text style={styles.loadingSubtext}>Please wait...</Text>
       </View>
     );
   }
@@ -112,46 +128,62 @@ export default function HomeScreen() {
   console.log('HomeScreen: Selected categories:', selectedCategories);
 
   // Always render the main UI, even if books array is empty
-  return (
-    <View style={styles.container}>
-      <View style={styles.filtersContainer}>
-        <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
-        <CategoryFilter
-          selectedCategories={selectedCategories}
-          onToggleCategory={handleToggleCategory}
-        />
-      </View>
-      <FlatList
-        data={filteredBooks}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <BookCard
-            book={item}
-            onPress={() => handleBookPress(item.id)}
-            progress={bookProgress[item.id]}
+  console.log('HomeScreen: Rendering main UI with', filteredBooks.length, 'books');
+  
+  try {
+    return (
+      <View style={styles.container} testID="home-screen-container">
+        <View style={styles.filtersContainer}>
+          <SearchBar value={searchQuery} onChangeText={setSearchQuery} />
+          <CategoryFilter
+            selectedCategories={selectedCategories}
+            onToggleCategory={handleToggleCategory}
           />
-        )}
-        contentContainerStyle={styles.listContent}
-        ListEmptyComponent={
+        </View>
+        {filteredBooks.length > 0 ? (
+          <FlatList
+            data={filteredBooks}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => (
+              <BookCard
+                book={item}
+                onPress={() => handleBookPress(item.id)}
+                progress={bookProgress[item.id]}
+              />
+            )}
+            contentContainerStyle={styles.listContent}
+          />
+        ) : (
           <View style={styles.emptyContainer}>
             <Text style={styles.emptyText}>
               {books.length === 0 
-                ? 'No books loaded' 
+                ? 'No books loaded. Check your metadata and asset files.' 
                 : selectedCategories.length > 0 || searchQuery.trim()
-                  ? 'No books found matching filters'
-                  : 'No books found'}
+                  ? 'No books found matching filters.'
+                  : 'No books found.'}
             </Text>
           </View>
-        }
-      />
-    </View>
-  );
+        )}
+      </View>
+    );
+  } catch (error) {
+    console.error('HomeScreen: Render error:', error);
+    return (
+      <View style={[styles.centerContainer, { backgroundColor: '#fff' }]}>
+        <Text style={styles.errorText}>Error rendering screen</Text>
+        <Text style={styles.errorDetails}>
+          {error instanceof Error ? error.message : 'Unknown error'}
+        </Text>
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#f5f5f5',
+    minHeight: '100%',
   },
   filtersContainer: {
     backgroundColor: '#fff',
@@ -166,14 +198,28 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+  },
+  loadingText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333',
+    marginBottom: 8,
+  },
+  loadingSubtext: {
+    fontSize: 14,
+    color: '#666',
   },
   emptyContainer: {
-    padding: 32,
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
+    padding: 32,
   },
   emptyText: {
     fontSize: 16,
     color: '#999',
+    textAlign: 'center',
   },
   errorText: {
     fontSize: 18,
