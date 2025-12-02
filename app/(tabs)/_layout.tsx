@@ -2,22 +2,25 @@ import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
 export default function TabsLayout() {
-  return (
-    <Tabs
-      initialRouteName="index"
-      screenOptions={{
-        headerShown: true,
-        tabBarActiveTintColor: '#4CAF50',
-        tabBarInactiveTintColor: '#999',
-        headerStyle: {
-          backgroundColor: '#fff',
-        },
-        headerTintColor: '#1a1a1a',
-        headerTitleStyle: {
-          fontWeight: '600',
-        },
-      }}
-    >
+  console.log('TabsLayout: Rendering');
+  
+  try {
+    return (
+      <Tabs
+        initialRouteName="index"
+        screenOptions={{
+          headerShown: true,
+          tabBarActiveTintColor: '#4CAF50',
+          tabBarInactiveTintColor: '#999',
+          headerStyle: {
+            backgroundColor: '#fff',
+          },
+          headerTintColor: '#1a1a1a',
+          headerTitleStyle: {
+            fontWeight: '600',
+          },
+        }}
+      >
       <Tabs.Screen
         name="index"
         options={{
@@ -55,6 +58,11 @@ export default function TabsLayout() {
         }}
       />
     </Tabs>
-  );
+    );
+  } catch (error) {
+    console.error('TabsLayout: Error:', error);
+    // Return a simple view if Tabs fails
+    return null;
+  }
 }
 

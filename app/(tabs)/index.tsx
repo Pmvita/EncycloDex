@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { View, FlatList, StyleSheet, Text } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useBooks } from '../../hooks/useBooks';
@@ -7,7 +7,6 @@ import { SearchBar } from '../../components/SearchBar';
 import { CategoryFilter } from '../../components/CategoryFilter';
 import { Category } from '../../types/book';
 import { getProgressForBook } from '../../lib/storage';
-import { useEffect } from 'react';
 
 export default function HomeScreen() {
   console.log('HomeScreen: Component function called');
@@ -18,6 +17,14 @@ export default function HomeScreen() {
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [bookProgress, setBookProgress] = useState<Record<string, number>>({});
   const [hasError, setHasError] = useState(false);
+
+  // Always log for debugging
+  useEffect(() => {
+    console.log('HomeScreen: Component rendered');
+    console.log('HomeScreen: Loading state:', loading);
+    console.log('HomeScreen: Books count:', books.length);
+    console.log('HomeScreen: Has error:', hasError);
+  }, [loading, books.length, hasError]);
 
   useEffect(() => {
     const loadProgress = async () => {
@@ -80,16 +87,8 @@ export default function HomeScreen() {
     router.push(`/book/${bookId}`);
   };
 
-  // Always log for debugging
-  useEffect(() => {
-    console.log('HomeScreen: Component rendered');
-    console.log('HomeScreen: Loading state:', loading);
-    console.log('HomeScreen: Books count:', books.length);
-    console.log('HomeScreen: Has error:', hasError);
-  }, [loading, books.length, hasError]);
-
   // Show error state if something failed
-  if (hasError && books.length === 0) {
+  if (hasError && books.length === 0 && !loading) {
     return (
       <View style={styles.centerContainer}>
         <Text style={styles.errorText}>Error loading books</Text>
@@ -98,6 +97,7 @@ export default function HomeScreen() {
     );
   }
 
+  // Always ensure we render something, even if there's an error
   if (loading) {
     console.log('HomeScreen: Showing loading state');
     return (
@@ -111,6 +111,7 @@ export default function HomeScreen() {
   console.log('HomeScreen: Filtered books:', filteredBooks.length);
   console.log('HomeScreen: Selected categories:', selectedCategories);
 
+  // Always render the main UI, even if books array is empty
   return (
     <View style={styles.container}>
       <View style={styles.filtersContainer}>
@@ -185,4 +186,3 @@ const styles = StyleSheet.create({
     color: '#666',
   },
 });
-
