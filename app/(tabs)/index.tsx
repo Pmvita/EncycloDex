@@ -10,22 +10,34 @@ import { getProgressForBook } from '../../lib/storage';
 import { useEffect } from 'react';
 
 export default function HomeScreen() {
+  console.log('HomeScreen: Component function called');
+  
   const router = useRouter();
   const { books, loading } = useBooks();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState<Category[]>([]);
   const [bookProgress, setBookProgress] = useState<Record<string, number>>({});
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
     const loadProgress = async () => {
-      const progressMap: Record<string, number> = {};
-      for (const book of books) {
-        const progress = await getProgressForBook(book.id);
-        if (progress) {
-          progressMap[book.id] = progress.progressPercentage;
+      try {
+        const progressMap: Record<string, number> = {};
+        for (const book of books) {
+          try {
+            const progress = await getProgressForBook(book.id);
+            if (progress) {
+              progressMap[book.id] = progress.progressPercentage;
+            }
+          } catch (err) {
+            console.error(`Error loading progress for book ${book.id}:`, err);
+          }
         }
+        setBookProgress(progressMap);
+      } catch (error) {
+        console.error('Error in loadProgress:', error);
+        setHasError(true);
       }
-      setBookProgress(progressMap);
     };
     if (books.length > 0) {
       loadProgress();
@@ -68,7 +80,26 @@ export default function HomeScreen() {
     router.push(`/book/${bookId}`);
   };
 
+  // Always log for debugging
+  useEffect(() => {
+    console.log('HomeScreen: Component rendered');
+    console.log('HomeScreen: Loading state:', loading);
+    console.log('HomeScreen: Books count:', books.length);
+    console.log('HomeScreen: Has error:', hasError);
+  }, [loading, books.length, hasError]);
+
+  // Show error state if something failed
+  if (hasError && books.length === 0) {
+    return (
+      <View style={styles.centerContainer}>
+        <Text style={styles.errorText}>Error loading books</Text>
+        <Text style={styles.errorDetails}>Please try again</Text>
+      </View>
+    );
+  }
+
   if (loading) {
+    console.log('HomeScreen: Showing loading state');
     return (
       <View style={styles.centerContainer}>
         <Text>Loading books...</Text>
@@ -76,9 +107,9 @@ export default function HomeScreen() {
     );
   }
 
-  console.log('Total books:', books.length);
-  console.log('Filtered books:', filteredBooks.length);
-  console.log('Selected categories:', selectedCategories);
+  console.log('HomeScreen: Total books:', books.length);
+  console.log('HomeScreen: Filtered books:', filteredBooks.length);
+  console.log('HomeScreen: Selected categories:', selectedCategories);
 
   return (
     <View style={styles.container}>
@@ -142,6 +173,16 @@ const styles = StyleSheet.create({
   emptyText: {
     fontSize: 16,
     color: '#999',
+  },
+  errorText: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#f44336',
+    marginBottom: 10,
+  },
+  errorDetails: {
+    fontSize: 14,
+    color: '#666',
   },
 });
 

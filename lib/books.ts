@@ -1,8 +1,24 @@
 import { Book, BookMetadata } from '../types/book';
-import booksMetadata from './books-metadata.json';
+
+// Try to import books metadata - use require for better error handling
+let booksMetadata: BookMetadata | null = null;
+
+try {
+  booksMetadata = require('./books-metadata.json') as BookMetadata;
+  console.log('Books metadata imported successfully');
+} catch (error) {
+  console.error('Failed to import books-metadata.json:', error);
+  // Fallback to empty metadata
+  booksMetadata = { books: [] };
+}
 
 export const getBooks = (): Book[] => {
   try {
+    if (!booksMetadata) {
+      console.warn('Books metadata is null, returning empty array');
+      return [];
+    }
+    
     const metadata = booksMetadata as BookMetadata;
     if (!metadata || !metadata.books) {
       console.error('Invalid metadata structure:', metadata);
