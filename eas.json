@@ -9,7 +9,8 @@
       "distribution": "internal",
       "ios": {
         "simulator": true,
-        "buildConfiguration": "Debug"
+        "buildConfiguration": "Debug",
+        "cocoapods": "1.15.2"
       },
       "android": {
         "buildType": "apk",
