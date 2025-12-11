@@ -184,7 +184,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
         </head>
         <body>
           <div id="pdf-container">
-            <div class="loading">Loading PDF...</div>
+            <div id="loading-text" class="loading">Loading PDF...</div>
           </div>
           <script>
             (function() {
@@ -213,10 +213,6 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
                 }
                 
                 const loadingText = document.getElementById('loading-text');
-                if (loadingText) {
-                  loadingText.textContent = \`Loading page \${pageNum} of \${totalPagesNum}...\`;
-                  loadingText.style.display = 'block';
-                }
                 
                 pdfDoc.getPage(pageNum).then(function(page) {
                   // Calculate scale to fit width
@@ -237,6 +233,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
                   
                   page.render(renderContext).promise.then(function() {
                     container.appendChild(canvas);
+                    // Always hide loading text when page is rendered
                     if (loadingText) {
                       loadingText.style.display = 'none';
                     }
@@ -324,7 +321,8 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     );
   }
 
-  if (error || !pdfDataUrl) {
+  // Only show error if we're not loading and there's actually an error or no data
+  if (!loading && (error || !pdfDataUrl)) {
     return (
       <View style={styles.centerContainer}>
         <Ionicons name="alert-circle" size={64} color="#f44336" />
@@ -358,12 +356,8 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
           setError(null);
         }}
         onLoadEnd={() => {
-          // Give PDF.js time to load
-          setTimeout(() => {
-            if (loading) {
-              setLoading(false);
-            }
-          }, 3000);
+          // WebView loaded, but PDF.js might still be loading
+          // Don't set loading to false here - wait for PAGE_RENDERED message
         }}
         onError={(syntheticEvent) => {
           const { nativeEvent } = syntheticEvent;
@@ -377,13 +371,15 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
             if (data.type === 'PDF_LOADED') {
               setTotalPages(data.totalPages || 0);
               setCurrentPage(data.currentPage || 1);
-              setLoading(false);
+              // Don't set loading to false here - wait for PAGE_RENDERED
               if (onPageChange) {
                 onPageChange(data.currentPage || 1, data.totalPages || 0);
               }
             } else if (data.type === 'PAGE_RENDERED') {
               setCurrentPage(data.page || currentPage);
               setTotalPages(data.totalPages || totalPages);
+              // Hide loading overlay when first page is actually rendered
+              setLoading(false);
               if (onPageChange) {
                 onPageChange(data.page || currentPage, data.totalPages || totalPages);
               }
