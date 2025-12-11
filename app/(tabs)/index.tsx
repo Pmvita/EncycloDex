@@ -9,8 +9,6 @@ import { Category } from '../../types/book';
 import { getProgressForBook } from '../../lib/storage';
 
 export default function HomeScreen() {
-  console.log('HomeScreen: Component function called');
-  
   const router = useRouter();
   const { books, loading } = useBooks();
   const [searchQuery, setSearchQuery] = useState('');
@@ -23,20 +21,11 @@ export default function HomeScreen() {
   useEffect(() => {
     if (loading) {
       const timeout = setTimeout(() => {
-        console.warn('HomeScreen: Force rendering after timeout');
         setForceRender(true);
       }, 3000);
       return () => clearTimeout(timeout);
     }
   }, [loading]);
-
-  // Always log for debugging
-  useEffect(() => {
-    console.log('HomeScreen: Component rendered');
-    console.log('HomeScreen: Loading state:', loading);
-    console.log('HomeScreen: Books count:', books.length);
-    console.log('HomeScreen: Has error:', hasError);
-  }, [loading, books.length, hasError]);
 
   useEffect(() => {
     const loadProgress = async () => {
@@ -95,7 +84,6 @@ export default function HomeScreen() {
   };
 
   const handleBookPress = (bookId: string) => {
-    console.log('Navigating to book:', bookId);
     router.push(`/book/${bookId}`);
   };
 
@@ -114,7 +102,6 @@ export default function HomeScreen() {
   const shouldShowContent = !loading || forceRender;
   
   if (!shouldShowContent) {
-    console.log('HomeScreen: Showing loading state, loading:', loading, 'forceRender:', forceRender);
     return (
       <View style={[styles.centerContainer, { backgroundColor: '#fff' }]}>
         <Text style={styles.loadingText}>Loading EncycloDex...</Text>
@@ -122,13 +109,6 @@ export default function HomeScreen() {
       </View>
     );
   }
-
-  console.log('HomeScreen: Total books:', books.length);
-  console.log('HomeScreen: Filtered books:', filteredBooks.length);
-  console.log('HomeScreen: Selected categories:', selectedCategories);
-
-  // Always render the main UI, even if books array is empty
-  console.log('HomeScreen: Rendering main UI with', filteredBooks.length, 'books');
   
   try {
     return (

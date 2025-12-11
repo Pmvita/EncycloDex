@@ -17,8 +17,8 @@ config.resolver.blockList = [
   /public\/assets\/books\/.*/,
 ];
 
-// Add custom server middleware to serve static files from public directory
-// This ensures files in public/assets/books are served correctly
+// Add custom server middleware to serve static files from assets/books directory
+// This ensures files in assets/books are served correctly via Metro dev server
 config.server = {
   ...config.server,
   enhanceMiddleware: (middleware) => {
@@ -38,13 +38,8 @@ config.server = {
           }
         });
         const decodedPath = decodedSegments.join('/');
-        // Try public/assets/books first (for web), then assets/books (for native dev server)
-        let filePath = path.join(__dirname, 'public', 'assets', 'books', decodedPath);
-        
-        if (!fs.existsSync(filePath)) {
-          // Fallback to assets/books directory (for native dev server)
-          filePath = path.join(__dirname, 'assets', 'books', decodedPath);
-        }
+        // Serve from assets/books directory only
+        const filePath = path.join(__dirname, 'assets', 'books', decodedPath);
         
         if (fs.existsSync(filePath)) {
           const stat = fs.statSync(filePath);

@@ -5,8 +5,6 @@ import { View, Text } from 'react-native';
 import { ErrorBoundary } from '../components/ErrorBoundary';
 
 export default function RootLayout() {
-  console.log('RootLayout: Component rendering');
-  
   try {
     return (
       <ErrorBoundary>

@@ -17,7 +17,6 @@ export const useBooks = () => {
         if (!isMounted) return;
         
         const allBooks = getBooks();
-        console.log('useBooks: Loaded', allBooks.length, 'books');
         
         if (isMounted) {
           setBooks(allBooks);
@@ -36,7 +35,6 @@ export const useBooks = () => {
     // Safety timeout - force loading to false after 2 seconds
     const timeout = setTimeout(() => {
       if (isMounted) {
-        console.warn('useBooks: Loading timeout - forcing loading to false');
         setLoading(false);
       }
     }, 2000);

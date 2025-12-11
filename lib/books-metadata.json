@@ -11,15 +11,6 @@
       "folderName": "112 books Apocrypha"
     },
     {
-      "id": "biblical_515_apocrypha",
-      "title": "515 Apocrypha",
-      "categories": [
-        "Biblical"
-      ],
-      "markdownPath": "biblical/515 Apocrypha/1._EthiopianBible_515_Apocrypha.md",
-      "folderName": "515 Apocrypha"
-    },
-    {
       "id": "biblical_515_apocrypha_by_edward_jones",
       "title": "515 Apocrypha By Edward Jones",
       "categories": [
@@ -357,5 +348,5 @@
       "folderName": "4. Lesser Key of Solomon README PDF EXTRACTION"
     }
   ],
-  "lastUpdated": 1764607565422
+  "lastUpdated": 1765461599755
 }

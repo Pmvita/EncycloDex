@@ -2,11 +2,9 @@ import { Book, BookMetadata } from '../types/book';
 
 // Try to import books metadata - use require for better error handling
 let booksMetadata: BookMetadata | null = null;
-let hasLoggedLoad = false;
 
 try {
   booksMetadata = require('./books-metadata.json') as BookMetadata;
-  console.log('Books metadata imported successfully');
 } catch (error) {
   console.error('Failed to import books-metadata.json:', error);
   // Fallback to empty metadata
@@ -24,11 +22,6 @@ export const getBooks = (): Book[] => {
     if (!metadata || !metadata.books) {
       console.error('Invalid metadata structure:', metadata);
       return [];
-    }
-    // Only log once to avoid spam during re-renders
-    if (!hasLoggedLoad) {
-      console.log('Loaded', metadata.books.length, 'books from metadata');
-      hasLoggedLoad = true;
     }
     return metadata.books;
   } catch (error) {
