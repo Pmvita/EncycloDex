@@ -1,0 +1,58 @@
+# EAS Build ignore file
+# Files and directories listed here will be excluded from EAS builds
+
+# Large book assets - these should be served separately or via EAS Updates
+# Books are too large to bundle in the app (292 MB+)
+assets/books/
+
+# Build artifacts
+dist/
+web-build/
+.expo/
+.expo-shared/
+
+# Development files
+scripts/
+*.md
+!README.md
+TROUBLESHOOTING.md
+EAS_UPDATES_GUIDE.md
+
+# Git
+.git/
+.gitignore
+
+# Documentation (keep README but exclude others)
+docs/
+
+# Test files
+**/__tests__/
+**/*.test.ts
+**/*.test.tsx
+**/*.spec.ts
+**/*.spec.tsx
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Temporary files
+*.tmp
+*.temp
+
+# Coverage
+coverage/
+.nyc_output/
+
