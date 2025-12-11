@@ -2,10 +2,14 @@ import * as FileSystem from 'expo-file-system/legacy';
 import { Platform } from 'react-native';
 import Constants from 'expo-constants';
 import * as Updates from 'expo-updates';
+import { supabase, isSupabaseConfigured } from './supabase';
 
 /**
  * Get the URI for an asset file
- * For web and native: uses fetch from assets/books via Metro dev server
+ * Priority:
+ * 1. Supabase Storage (if configured) - for production
+ * 2. Metro dev server - for development
+ * 3. EAS Updates - fallback
  * 
  * @param filepath - Path relative to assets/books (e.g., "biblical/book.pdf" or "book.pdf")
  */
@@ -13,43 +17,50 @@ export const getAssetUri = async (filepath: string): Promise<string> => {
   // Encode each path segment separately to handle spaces in folder names
   const encodedPath = filepath.split('/').map(segment => encodeURIComponent(segment)).join('/');
   
-  if (Platform.OS === 'web') {
-    // For web, Metro serves files from assets/books
-    return `/assets/books/${encodedPath}`;
+  // Priority 1: Supabase Storage (production/cloud storage)
+  if (isSupabaseConfigured() && !__DEV__) {
+    try {
+      const { data } = await supabase
+        .storage
+        .from('books')
+        .getPublicUrl(encodedPath);
+      
+      if (data?.publicUrl) {
+        return data.publicUrl;
+      }
+    } catch (error) {
+      console.warn('Failed to get Supabase URL, falling back to local:', error);
+    }
   }
-
-  // For native platforms, fetch from Metro dev server (same as web during development)
-  // In production builds with EAS Updates, use the Updates API
-  // encodedPath is already declared above, reuse it
   
-  if (__DEV__) {
-    // Get the dev server URL from Constants
-    // For simulator, use localhost; for device, use the debugger host
+  // Priority 2: Development - Metro dev server
+  if (Platform.OS === 'web' || __DEV__) {
+    if (Platform.OS === 'web') {
+      // For web, Metro serves files from assets/books
+      return `/assets/books/${encodedPath}`;
+    }
+    
+    // For native dev, use Metro dev server
     let baseUrl = 'http://localhost:8081';
     
-    // Try to get the actual dev server URL from Constants
     if (Constants.expoConfig?.hostUri) {
-      // hostUri is like "192.168.2.50:8081", add http://
       baseUrl = `http://${Constants.expoConfig.hostUri}`;
     } else if (Constants.manifest?.debuggerHost) {
       baseUrl = `http://${Constants.manifest.debuggerHost}`;
     }
     
-    const finalUrl = `${baseUrl}/assets/books/${encodedPath}`;
-    return finalUrl;
+    return `${baseUrl}/assets/books/${encodedPath}`;
   }
   
-  // In production builds with EAS Updates, use the Updates API to get asset URL
+  // Priority 3: EAS Updates (fallback for production if Supabase not configured)
   if (Updates.isEnabled && Updates.updateId) {
-    // Use the Updates API to get the asset URL
     const updatesUrl = Updates.url || '';
     if (updatesUrl) {
-      // Construct URL for assets served by EAS Updates
       return `${updatesUrl}/assets/books/${encodedPath}`;
     }
   }
   
-  // Fallback: try to use the manifest URL if available
+  // Last resort: try to use the manifest URL if available
   if (Constants.expoConfig?.hostUri) {
     return `https://${Constants.expoConfig.hostUri}/assets/books/${encodedPath}`;
   }
