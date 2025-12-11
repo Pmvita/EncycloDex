@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { View, StyleSheet, ScrollView, ActivityIndicator, Text } from 'react-native';
-import Markdown from 'react-native-markdown-display';
+import React, { useState, useRef, useEffect, useMemo, useCallback } from 'react';
+import { View, StyleSheet, FlatList, ActivityIndicator, Text, InteractionManager, Dimensions } from 'react-native';
 import { readAssetText } from '../lib/assetLoader';
 
 interface MarkdownViewerProps {
@@ -10,180 +9,296 @@ interface MarkdownViewerProps {
   fontSize?: number;
 }
 
-export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
+interface MarkdownChunk {
+  id: string;
+  type: 'paragraph' | 'heading1' | 'heading2' | 'heading3' | 'list' | 'code' | 'empty';
+  content: string;
+  level?: number; // For lists
+}
+
+// Parse markdown into chunks for virtualized rendering
+const parseMarkdownToChunks = (content: string): MarkdownChunk[] => {
+  const lines = content.split('\n');
+  const chunks: MarkdownChunk[] = [];
+  let chunkId = 0;
+  let inCodeBlock = false;
+  let codeBlockContent: string[] = [];
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    
+    // Handle code blocks
+    if (line.startsWith('```')) {
+      if (inCodeBlock) {
+        // End code block
+        chunks.push({
+          id: `chunk-${chunkId++}`,
+          type: 'code',
+          content: codeBlockContent.join('\n'),
+        });
+        codeBlockContent = [];
+        inCodeBlock = false;
+      } else {
+        // Start code block
+        inCodeBlock = true;
+      }
+      continue;
+    }
+
+    if (inCodeBlock) {
+      codeBlockContent.push(line);
+      continue;
+    }
+
+    // Skip empty lines (but add minimal spacing)
+    if (line.trim() === '') {
+      chunks.push({
+        id: `chunk-${chunkId++}`,
+        type: 'empty',
+        content: '',
+      });
+      continue;
+    }
+
+    // Headings
+    if (line.startsWith('# ')) {
+      chunks.push({
+        id: `chunk-${chunkId++}`,
+        type: 'heading1',
+        content: line.substring(2).trim(),
+      });
+      continue;
+    }
+    if (line.startsWith('## ')) {
+      chunks.push({
+        id: `chunk-${chunkId++}`,
+        type: 'heading2',
+        content: line.substring(3).trim(),
+      });
+      continue;
+    }
+    if (line.startsWith('### ')) {
+      chunks.push({
+        id: `chunk-${chunkId++}`,
+        type: 'heading3',
+        content: line.substring(4).trim(),
+      });
+      continue;
+    }
+
+    // Lists
+    if (line.match(/^[\*\-\+] /)) {
+      chunks.push({
+        id: `chunk-${chunkId++}`,
+        type: 'list',
+        content: line.substring(2).trim(),
+        level: 0,
+      });
+      continue;
+    }
+    if (line.match(/^\d+\. /)) {
+      const match = line.match(/^(\d+)\. (.*)/);
+      if (match) {
+        chunks.push({
+          id: `chunk-${chunkId++}`,
+          type: 'list',
+          content: match[2],
+          level: parseInt(match[1], 10),
+        });
+        continue;
+      }
+    }
+
+    // Regular paragraph
+    chunks.push({
+      id: `chunk-${chunkId++}`,
+      type: 'paragraph',
+      content: line.trim(),
+    });
+  }
+
+  // Close any open code block
+  if (inCodeBlock && codeBlockContent.length > 0) {
+    chunks.push({
+      id: `chunk-${chunkId++}`,
+      type: 'code',
+      content: codeBlockContent.join('\n'),
+    });
+  }
+
+  return chunks;
+};
+
+// Parse inline markdown (bold, italic, code) - simplified to avoid recursion issues
+// For book reading, we prioritize performance over complex formatting
+const parseInlineMarkdown = (text: string): string => {
+  // Simple approach: just return text for now to avoid performance issues
+  // Can enhance later if needed
+  return text;
+};
+
+// Render a single chunk
+const renderChunk = (chunk: MarkdownChunk, fontSize: number): React.ReactElement => {
+  switch (chunk.type) {
+    case 'heading1':
+      return (
+        <Text key={chunk.id} style={[styles.heading1, { fontSize: fontSize * 1.8 }]}>
+          {chunk.content}
+        </Text>
+      );
+    case 'heading2':
+      return (
+        <Text key={chunk.id} style={[styles.heading2, { fontSize: fontSize * 1.5 }]}>
+          {chunk.content}
+        </Text>
+      );
+    case 'heading3':
+      return (
+        <Text key={chunk.id} style={[styles.heading3, { fontSize: fontSize * 1.3 }]}>
+          {chunk.content}
+        </Text>
+      );
+    case 'list':
+      return (
+        <View key={chunk.id} style={styles.listItem}>
+          <Text style={styles.bullet}>• </Text>
+          <Text style={[styles.body, { fontSize }]}>{parseInlineMarkdown(chunk.content)}</Text>
+        </View>
+      );
+    case 'code':
+      return (
+        <View key={chunk.id} style={styles.codeBlock}>
+          <Text style={styles.codeBlockText}>{chunk.content}</Text>
+        </View>
+      );
+    case 'empty':
+      return <View key={chunk.id} style={{ height: fontSize * 0.5 }} />;
+    case 'paragraph':
+    default:
+      return (
+        <Text key={chunk.id} style={[styles.paragraph, { fontSize, lineHeight: fontSize * 1.8 }]}>
+          {parseInlineMarkdown(chunk.content)}
+        </Text>
+      );
+  }
+};
+
+const MarkdownViewerComponent: React.FC<MarkdownViewerProps> = ({
   source,
   onScroll,
   initialPosition = 0,
-  fontSize = 16,
+  fontSize = 18, // Increased default for better readability
 }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [content, setContent] = useState<string>('');
+  const [chunks, setChunks] = useState<MarkdownChunk[]>([]);
   const [loadingProgress, setLoadingProgress] = useState<string>('Loading content...');
-  const scrollViewRef = useRef<ScrollView>(null);
-
-  // Memoize markdown styles to avoid recreating on every render
-  // Must be called before any conditional returns (Rules of Hooks)
-  const markdownStyles = useMemo(() => ({
-    body: {
-      fontSize,
-      lineHeight: fontSize * 1.6,
-      color: '#1a1a1a',
-    },
-    heading1: {
-      fontSize: fontSize * 1.8,
-      fontWeight: '700' as const,
-      marginTop: 24,
-      marginBottom: 12,
-    },
-    heading2: {
-      fontSize: fontSize * 1.5,
-      fontWeight: '600' as const,
-      marginTop: 20,
-      marginBottom: 10,
-    },
-    heading3: {
-      fontSize: fontSize * 1.3,
-      fontWeight: '600' as const,
-      marginTop: 16,
-      marginBottom: 8,
-    },
-    paragraph: {
-      marginBottom: 12,
-    },
-    code_inline: {
-      backgroundColor: '#f5f5f5',
-      paddingHorizontal: 4,
-      paddingVertical: 2,
-      borderRadius: 4,
-      fontFamily: 'monospace',
-    },
-    code_block: {
-      backgroundColor: '#f5f5f5',
-      padding: 12,
-      borderRadius: 8,
-      marginVertical: 12,
-      fontFamily: 'monospace',
-    },
-    list_item: {
-      marginBottom: 8,
-    },
-  }), [fontSize]);
-
-  // Memoize the markdown content to avoid re-rendering
-  // Must be called before any conditional returns (Rules of Hooks)
-  // Use a stable reference for markdownStyles to prevent unnecessary re-renders
-  const markdownContent = useMemo(() => {
-    if (!content) return null;
-    return <Markdown style={markdownStyles}>{content}</Markdown>;
-  }, [content, markdownStyles]);
-
-  // Track if we've already loaded this source to prevent infinite loops
+  const flatListRef = useRef<FlatList>(null);
   const loadedSourceRef = useRef<string | null>(null);
   const hasScrolledToInitialRef = useRef(false);
-  const lastInitialPositionRef = useRef(initialPosition);
+  const screenHeight = Dimensions.get('window').height;
 
-  // Separate effect to handle scroll position updates (without reloading)
+  // Load markdown content and parse into chunks
   useEffect(() => {
-    // Only scroll if position changed and content is loaded
-    if (content && !loading && initialPosition !== lastInitialPositionRef.current && scrollViewRef.current) {
-      lastInitialPositionRef.current = initialPosition;
-      if (initialPosition > 0) {
-        setTimeout(() => {
-          scrollViewRef.current?.scrollTo({ y: initialPosition, animated: false });
-        }, 100);
-      }
-    }
-  }, [initialPosition, content, loading]);
-
-  useEffect(() => {
-    // Only load if source changed
     if (loadedSourceRef.current === source) {
-      return;
+      return; // Already loaded
     }
 
-    let isMounted = true;
-    let timeoutId: NodeJS.Timeout;
-
-    const loadMarkdown = async () => {
+    const loadContent = async () => {
       try {
-        setLoadingProgress('Fetching file...');
-        
-        // Add timeout for fetch operation - increased for large files
-        const fetchPromise = readAssetText(source);
-        const timeoutPromise = new Promise<never>((_, reject) => {
-          timeoutId = setTimeout(() => {
-            reject(new Error('Request timeout: File is taking too long to load. Large files may need more time.'));
-          }, 30000); // 30 second timeout for large markdown files
-        });
-
-        const fileContent = await Promise.race([fetchPromise, timeoutPromise]);
-        
-        if (!isMounted) return;
-
-        setLoadingProgress('Rendering content...');
-        
-        // Mark this source as loaded
+        setLoading(true);
+        setError(null);
+        setLoadingProgress('Loading content...');
         loadedSourceRef.current = source;
         hasScrolledToInitialRef.current = false;
-        
-        // For large files, set content immediately and let it render
-        // The rendering happens asynchronously, so we can show content while it processes
-        setContent(fileContent);
-        setLoading(false); // Hide loading immediately, content will render progressively
 
-        // Scroll to initial position after content loads (only once per source)
-        if (initialPosition > 0 && scrollViewRef.current && !hasScrolledToInitialRef.current) {
-          setTimeout(() => {
-            if (scrollViewRef.current && !hasScrolledToInitialRef.current) {
-              scrollViewRef.current.scrollTo({ y: initialPosition, animated: false });
-              hasScrolledToInitialRef.current = true;
-            }
-          }, 100);
-        }
+        const text = await readAssetText(source);
+        setLoadingProgress('Parsing content...');
+        
+        // Parse in chunks to avoid blocking
+        InteractionManager.runAfterInteractions(() => {
+          const parsedChunks = parseMarkdownToChunks(text);
+          setChunks(parsedChunks);
+          setLoading(false);
+        });
       } catch (err) {
-        if (!isMounted) return;
-        
         console.error('Error loading markdown:', err);
-        const errorMessage = err instanceof Error ? err.message : 'Failed to load markdown file';
-        
-        if (errorMessage.includes('timeout')) {
-          setError('File is taking too long to load. Large files (5MB+) may need more time. Please wait or check your connection.');
-        } else if (errorMessage.includes('404')) {
-          setError('File not found. The markdown file may not exist.');
-        } else {
-          setError(`Failed to load: ${errorMessage}`);
-        }
+        setError(err instanceof Error ? err.message : 'Failed to load content');
         setLoading(false);
+        loadedSourceRef.current = null;
       }
     };
 
-    loadMarkdown();
+    loadContent();
+  }, [source]);
 
-    return () => {
-      isMounted = false;
-      if (timeoutId) {
-        clearTimeout(timeoutId);
+  // Scroll to initial position after content loads
+  useEffect(() => {
+    if (!loading && chunks.length > 0 && initialPosition > 0 && !hasScrolledToInitialRef.current) {
+      InteractionManager.runAfterInteractions(() => {
+        setTimeout(() => {
+          // Estimate chunk index from scroll position (rough estimate)
+          const estimatedIndex = Math.floor((initialPosition / screenHeight) * 10);
+          flatListRef.current?.scrollToIndex({ 
+            index: Math.min(estimatedIndex, chunks.length - 1), 
+            animated: false 
+          });
+          hasScrolledToInitialRef.current = true;
+        }, 200);
+      });
+    }
+  }, [loading, chunks.length, initialPosition, screenHeight]);
+
+  // Throttle scroll events
+  const lastScrollTimeRef = useRef(0);
+  const handleScroll = useCallback(
+    (event: any) => {
+      const now = Date.now();
+      if (now - lastScrollTimeRef.current < 200) {
+        return;
       }
-    };
-  }, [source]); // Removed initialPosition from dependencies to prevent infinite loops
+      lastScrollTimeRef.current = now;
+      const position = event.nativeEvent.contentOffset.y;
+      InteractionManager.runAfterInteractions(() => {
+        onScroll?.(position);
+      });
+    },
+    [onScroll]
+  );
 
-  const handleScroll = (event: any) => {
-    const position = event.nativeEvent.contentOffset.y;
-    onScroll?.(position);
-  };
+  // Render item for FlatList
+  const renderItem = useCallback(
+    ({ item }: { item: MarkdownChunk }) => {
+      return (
+        <View style={styles.chunkContainer}>
+          {renderChunk(item, fontSize)}
+        </View>
+      );
+    },
+    [fontSize]
+  );
+
+  // Get item layout for better performance
+  const getItemLayout = useCallback(
+    (_: any, index: number) => {
+      // Estimate ~100px per chunk (will be adjusted by FlatList)
+      return {
+        length: 100,
+        offset: 100 * index,
+        index,
+      };
+    },
+    []
+  );
+
+  // Key extractor
+  const keyExtractor = useCallback((item: MarkdownChunk) => item.id, []);
 
   if (loading) {
     return (
       <View style={styles.centerContainer}>
         <ActivityIndicator size="large" color="#4CAF50" />
         <Text style={styles.loadingText}>{loadingProgress}</Text>
-        {loadingProgress.includes('timeout') && (
-          <Text style={styles.hintText}>
-            Large files may take longer to load.{'\n'}
-            Please wait or check your connection.
-          </Text>
-        )}
       </View>
     );
   }
@@ -197,35 +312,59 @@ export const MarkdownViewer: React.FC<MarkdownViewerProps> = ({
   }
 
   return (
-    <ScrollView
-      ref={scrollViewRef}
-      style={styles.container}
-      contentContainerStyle={styles.contentContainer}
+    <FlatList
+      ref={flatListRef}
+      data={chunks}
+      renderItem={renderItem}
+      keyExtractor={keyExtractor}
+      getItemLayout={getItemLayout}
       onScroll={handleScroll}
-      scrollEventThrottle={16}
+      scrollEventThrottle={200}
       removeClippedSubviews={true}
-    >
-      {markdownContent}
-    </ScrollView>
+      maxToRenderPerBatch={10}
+      updateCellsBatchingPeriod={50}
+      initialNumToRender={15}
+      windowSize={10}
+      contentContainerStyle={styles.contentContainer}
+      style={styles.container}
+      showsVerticalScrollIndicator={true}
+      decelerationRate="normal"
+      bounces={true}
+    />
   );
 };
+
+// Memoize the component
+export const MarkdownViewer = React.memo(MarkdownViewerComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.source === nextProps.source &&
+    prevProps.fontSize === nextProps.fontSize &&
+    prevProps.initialPosition === nextProps.initialPosition &&
+    prevProps.onScroll === nextProps.onScroll
+  );
+});
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#faf8f3', // Book-like cream background
   },
   contentContainer: {
-    padding: 16,
+    paddingHorizontal: 24,
+    paddingVertical: 20,
+    paddingBottom: 40,
+  },
+  chunkContainer: {
+    marginBottom: 4,
   },
   centerContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
+    padding: 20,
   },
   loadingText: {
-    marginTop: 16,
+    marginTop: 12,
     fontSize: 16,
     color: '#666',
   },
@@ -233,14 +372,57 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#f44336',
     textAlign: 'center',
-    paddingHorizontal: 20,
   },
-  hintText: {
-    marginTop: 12,
+  body: {
+    color: '#2c2c2c', // Darker text for better readability
+  },
+  paragraph: {
+    marginBottom: 16,
+    color: '#2c2c2c',
+    textAlign: 'left',
+    letterSpacing: 0.3, // Better readability
+  },
+  heading1: {
+    fontWeight: '700',
+    marginTop: 32,
+    marginBottom: 16,
+    color: '#1a1a1a',
+    letterSpacing: -0.5,
+  },
+  heading2: {
+    fontWeight: '600',
+    marginTop: 24,
+    marginBottom: 12,
+    color: '#1a1a1a',
+    letterSpacing: -0.3,
+  },
+  heading3: {
+    fontWeight: '600',
+    marginTop: 20,
+    marginBottom: 10,
+    color: '#1a1a1a',
+  },
+  listItem: {
+    flexDirection: 'row',
+    marginBottom: 10,
+    paddingLeft: 8,
+  },
+  bullet: {
+    color: '#2c2c2c',
+    marginRight: 8,
+    fontSize: 18,
+  },
+  codeBlock: {
+    backgroundColor: '#f0f0f0',
+    padding: 16,
+    borderRadius: 8,
+    marginVertical: 16,
+    borderLeftWidth: 4,
+    borderLeftColor: '#4CAF50',
+  },
+  codeBlockText: {
+    fontFamily: 'monospace',
     fontSize: 14,
-    color: '#999',
-    textAlign: 'center',
-    paddingHorizontal: 20,
-    lineHeight: 20,
+    color: '#1a1a1a',
   },
 });

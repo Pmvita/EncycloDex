@@ -25,8 +25,10 @@ config.server = {
     return (req, res, next) => {
       // If request is for /assets/books/, serve from public directory
       if (req.url && req.url.startsWith('/assets/books/')) {
+        // Remove query parameters (e.g., ?_=timestamp)
+        const urlWithoutQuery = req.url.split('?')[0];
         // Decode each path segment separately to handle spaces and special characters
-        const urlPath = req.url.substring('/assets/books/'.length); // Remove prefix
+        const urlPath = urlWithoutQuery.substring('/assets/books/'.length); // Remove prefix
         const segments = urlPath.split('/');
         const decodedSegments = segments.map(seg => {
           try {
@@ -36,7 +38,13 @@ config.server = {
           }
         });
         const decodedPath = decodedSegments.join('/');
-        const filePath = path.join(__dirname, 'public', 'assets', 'books', decodedPath);
+        // Try public/assets/books first (for web), then assets/books (for native dev server)
+        let filePath = path.join(__dirname, 'public', 'assets', 'books', decodedPath);
+        
+        if (!fs.existsSync(filePath)) {
+          // Fallback to assets/books directory (for native dev server)
+          filePath = path.join(__dirname, 'assets', 'books', decodedPath);
+        }
         
         if (fs.existsSync(filePath)) {
           const stat = fs.statSync(filePath);
@@ -49,9 +57,22 @@ config.server = {
               contentType = 'text/markdown; charset=utf-8';
             }
             
+            // Set CORS headers to allow WebView to fetch the PDF
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            res.setHeader('Access-Control-Allow-Methods', 'GET, HEAD, OPTIONS');
+            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Accept, Range');
             res.setHeader('Content-Type', contentType);
             res.setHeader('Content-Length', stat.size);
             res.setHeader('Cache-Control', 'public, max-age=31536000');
+            res.setHeader('Accept-Ranges', 'bytes');
+            
+            // Handle OPTIONS preflight requests
+            if (req.method === 'OPTIONS') {
+              res.statusCode = 200;
+              res.end();
+              return;
+            }
+            
             fs.createReadStream(filePath).pipe(res);
             return;
           }

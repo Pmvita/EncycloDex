@@ -36,7 +36,8 @@ export const getAssetUri = async (filepath: string): Promise<string> => {
       baseUrl = `http://${Constants.manifest.debuggerHost}`;
     }
     
-    return `${baseUrl}/assets/books/${encodedPath}`;
+    const finalUrl = `${baseUrl}/assets/books/${encodedPath}`;
+    return finalUrl;
   }
   
   // In production builds with EAS Updates, use the Updates API to get asset URL

@@ -1,8 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, Platform, ActivityIndicator, TouchableOpacity, Linking } from 'react-native';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { View, StyleSheet, Text, Platform, ActivityIndicator, TouchableOpacity, Linking, Dimensions } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { Ionicons } from '@expo/vector-icons';
 import { getAssetUri } from '../lib/assetLoader';
+
+// Base64 encoding function (React Native compatible)
+const base64Encode = (uint8Array: Uint8Array): string => {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+  let result = '';
+  let i = 0;
+  while (i < uint8Array.length) {
+    const a = uint8Array[i++];
+    const b = i < uint8Array.length ? uint8Array[i++] : 0;
+    const c = i < uint8Array.length ? uint8Array[i++] : 0;
+    const bitmap = (a << 16) | (b << 8) | c;
+    result += chars.charAt((bitmap >> 18) & 63);
+    result += chars.charAt((bitmap >> 12) & 63);
+    result += i - 2 < uint8Array.length ? chars.charAt((bitmap >> 6) & 63) : '=';
+    result += i - 1 < uint8Array.length ? chars.charAt(bitmap & 63) : '=';
+  }
+  return result;
+};
 
 interface PDFViewerProps {
   source: string; // Path relative to assets/books (e.g., "biblical/book.pdf")
@@ -10,7 +28,6 @@ interface PDFViewerProps {
   initialPage?: number;
 }
 
-// Native PDF Viewer Component (iOS/Android)
 export const PDFViewer: React.FC<PDFViewerProps> = ({
   source,
   onPageChange,
@@ -18,33 +35,45 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
 }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [pdfUri, setPdfUri] = useState<string | null>(null);
-  const [showBrowserOption, setShowBrowserOption] = useState(false);
+  const [pdfDataUrl, setPdfDataUrl] = useState<string | null>(null); // Changed from pdfUri to pdfDataUrl (base64 data URL)
+  const [currentPage, setCurrentPage] = useState(initialPage);
+  const [totalPages, setTotalPages] = useState(0);
   const [loadingProgress, setLoadingProgress] = useState<string>('Initializing...');
+  const webViewRef = useRef<WebView>(null);
+  const screenWidth = Dimensions.get('window').width;
+  const initialPageRef = useRef(initialPage);
 
   useEffect(() => {
     const loadPDF = async () => {
       try {
+        setLoading(true);
+        setError(null);
+        setLoadingProgress('Getting PDF location...');
         const uri = await getAssetUri(source);
-        setPdfUri(uri);
-        setLoadingProgress('Checking PDF availability...');
+        setLoadingProgress('Fetching PDF data...');
         
-        // Test if PDF is accessible
-        try {
-          const response = await fetch(uri, { method: 'HEAD' });
-          if (!response.ok) {
-            throw new Error(`PDF not accessible: ${response.status}`);
-          }
-          setLoadingProgress('Loading PDF viewer...');
-        } catch (fetchError) {
-          console.warn('PDF accessibility check failed:', fetchError);
-          // Continue anyway, might work
+        // Fetch PDF in React Native (bypasses WebView fetch restrictions)
+        const response = await fetch(uri);
+        
+        if (!response.ok) {
+          throw new Error(`Failed to fetch PDF: ${response.status} ${response.statusText}`);
         }
         
-        setLoading(false);
+        setLoadingProgress('Converting PDF to base64...');
+        // Convert response to arrayBuffer then to base64 (React Native compatible)
+        const arrayBuffer = await response.arrayBuffer();
+        
+        // Convert ArrayBuffer to base64 (React Native compatible)
+        const uint8Array = new Uint8Array(arrayBuffer);
+        // Use custom base64 encoding function (btoa may not be available in React Native)
+        const base64String = base64Encode(uint8Array);
+        const base64DataUrl = `data:application/pdf;base64,${base64String}`;
+        
+        setPdfDataUrl(base64DataUrl);
+        setLoadingProgress('Loading PDF...');
       } catch (err) {
         console.error('Error loading PDF:', err);
-        setError('Failed to load PDF');
+        setError('Failed to load PDF: ' + (err instanceof Error ? err.message : 'Unknown error'));
         setLoading(false);
       }
     };
@@ -52,19 +81,240 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     loadPDF();
   }, [source]);
 
-  // Add timeout - if PDF takes too long, show browser option
-  useEffect(() => {
-    if (pdfUri && loading) {
-      const timeout = setTimeout(() => {
-        setShowBrowserOption(true);
-        setLoadingProgress('PDF is taking longer than expected. You can open it in your browser instead.');
-      }, 8000); // 8 second timeout
-
-      return () => clearTimeout(timeout);
+  // Handle page navigation
+  const goToPage = useCallback((page: number) => {
+    const newPage = Math.max(1, Math.min(page, totalPages || 999999));
+    setCurrentPage(newPage);
+    
+    // Send message to WebView to change page
+    if (webViewRef.current && totalPages > 0) {
+      webViewRef.current.postMessage(JSON.stringify({
+        type: 'CHANGE_PAGE',
+        page: newPage
+      }));
     }
-  }, [pdfUri, loading]);
+    
+    if (onPageChange && totalPages > 0) {
+      onPageChange(newPage, totalPages);
+    }
+  }, [totalPages, onPageChange]);
 
-  // Only use react-native-pdf on native platforms
+  const goToNextPage = useCallback(() => {
+    if (currentPage < totalPages) {
+      goToPage(currentPage + 1);
+    }
+  }, [currentPage, totalPages, goToPage]);
+
+  const goToPrevPage = useCallback(() => {
+    if (currentPage > 1) {
+      goToPage(currentPage - 1);
+    }
+  }, [currentPage, goToPage]);
+
+  // Update current page when initialPage prop changes
+  useEffect(() => {
+    if (initialPage !== initialPageRef.current && initialPage > 0 && totalPages > 0) {
+      initialPageRef.current = initialPage;
+      goToPage(initialPage);
+    }
+  }, [initialPage, totalPages, goToPage]);
+
+  // Generate HTML for single-page PDF viewer with navigation
+  const htmlContent = useMemo(() => {
+    if (!pdfDataUrl) {
+      return '';
+    }
+    
+    return `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js" crossorigin="anonymous"></script>
+          <style>
+            * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+            }
+            body {
+              background-color: #525252;
+              overflow-x: hidden;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              justify-content: center;
+              min-height: 100vh;
+              padding: 20px 10px;
+            }
+            #pdf-container {
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              width: 100%;
+              max-width: 100%;
+            }
+            #page-canvas {
+              max-width: 100%;
+              height: auto;
+              box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+              background: white;
+            }
+            .loading {
+              color: white;
+              font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+              text-align: center;
+              padding: 40px 20px;
+              font-size: 16px;
+            }
+            .error {
+              color: #f44336;
+              font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+              text-align: center;
+              padding: 40px 20px;
+              font-size: 16px;
+            }
+            .page-info {
+              color: white;
+              font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+              margin-top: 16px;
+              font-size: 14px;
+            }
+          </style>
+        </head>
+        <body>
+          <div id="pdf-container">
+            <div class="loading">Loading PDF...</div>
+          </div>
+          <script>
+            (function() {
+              const container = document.getElementById('pdf-container');
+              // Use base64 data URL instead of HTTP URL
+              const pdfDataUrl = ${JSON.stringify(pdfDataUrl || '')};
+              let pdfDoc = null;
+              let currentPageNum = ${currentPage || 1};
+              let totalPagesNum = 0;
+              
+              // Calculate scale to fit screen width
+              const screenWidth = ${screenWidth};
+              const targetWidth = screenWidth - 40; // Account for padding
+              
+              // Configure PDF.js
+              pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+              pdfjsLib.GlobalWorkerOptions.verbosity = 0;
+              
+              function renderPage(pageNum) {
+                if (!pdfDoc || pageNum < 1 || pageNum > totalPagesNum) return;
+                
+                // Remove existing canvas
+                const existingCanvas = document.getElementById('page-canvas');
+                if (existingCanvas) {
+                  container.removeChild(existingCanvas);
+                }
+                
+                const loadingText = document.getElementById('loading-text');
+                if (loadingText) {
+                  loadingText.textContent = \`Loading page \${pageNum} of \${totalPagesNum}...\`;
+                  loadingText.style.display = 'block';
+                }
+                
+                pdfDoc.getPage(pageNum).then(function(page) {
+                  // Calculate scale to fit width
+                  const viewport = page.getViewport({ scale: 1.0 });
+                  const scale = targetWidth / viewport.width;
+                  const scaledViewport = page.getViewport({ scale: scale });
+                  
+                  const canvas = document.createElement('canvas');
+                  const ctx = canvas.getContext('2d');
+                  canvas.id = 'page-canvas';
+                  canvas.height = scaledViewport.height;
+                  canvas.width = scaledViewport.width;
+                  
+                  const renderContext = {
+                    canvasContext: ctx,
+                    viewport: scaledViewport
+                  };
+                  
+                  page.render(renderContext).promise.then(function() {
+                    container.appendChild(canvas);
+                    if (loadingText) {
+                      loadingText.style.display = 'none';
+                    }
+                    
+                    // Notify React Native
+                    if (window.ReactNativeWebView) {
+                      window.ReactNativeWebView.postMessage(JSON.stringify({
+                        type: 'PAGE_RENDERED',
+                        currentPage: pageNum,
+                        totalPages: totalPagesNum
+                      }));
+                    }
+                  }).catch(function(error) {
+                    console.error('Error rendering page:', error);
+                    container.innerHTML = '<div class="error">Error rendering page ' + pageNum + '</div>';
+                  });
+                }).catch(function(error) {
+                  console.error('Error getting page:', error);
+                  container.innerHTML = '<div class="error">Error loading page ' + pageNum + '</div>';
+                });
+              }
+              
+              // Load PDF document using base64 data URL
+              // For base64 data URLs, pass the string directly (not as { data: ... })
+              // The 'data' property is for Uint8Array/ArrayBuffer, not strings
+              pdfjsLib.getDocument({
+                url: pdfDataUrl, // Use 'url' for data URLs (PDF.js handles data: URLs)
+                verbosity: 0,
+                useSystemFonts: true
+              }).promise.then(function(pdf) {
+                pdfDoc = pdf;
+                totalPagesNum = pdf.numPages;
+                currentPageNum = Math.min(currentPageNum, totalPagesNum);
+                currentPageNum = Math.max(1, currentPageNum);
+                
+                if (window.ReactNativeWebView) {
+                  window.ReactNativeWebView.postMessage(JSON.stringify({
+                    type: 'PDF_LOADED',
+                    totalPages: totalPagesNum,
+                    currentPage: currentPageNum
+                  }));
+                }
+                
+                // Render initial page
+                renderPage(currentPageNum);
+              }).catch(function(error) {
+                console.error('Error loading PDF:', error);
+                const errorMsg = error.message || 'Unknown error';
+                container.innerHTML = '<div class="error">Error loading PDF: ' + errorMsg + '</div>';
+                
+                if (window.ReactNativeWebView) {
+                  window.ReactNativeWebView.postMessage(JSON.stringify({
+                    type: 'PDF_ERROR',
+                    error: errorMsg
+                  }));
+                }
+              });
+              
+              // Listen for page change messages from React Native
+              window.addEventListener('message', function(event) {
+                try {
+                  const data = JSON.parse(event.data);
+                  if (data.type === 'CHANGE_PAGE' && data.page) {
+                    currentPageNum = Math.max(1, Math.min(data.page, totalPagesNum));
+                    renderPage(currentPageNum);
+                  }
+                } catch (e) {
+                  // Ignore parse errors
+                }
+              });
+            })();
+          </script>
+        </body>
+      </html>
+    `;
+  }, [pdfDataUrl, currentPage, screenWidth]);
+
+  // Only use on native platforms
   if (Platform.OS === 'web') {
     return (
       <View style={styles.centerContainer}>
@@ -74,34 +324,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
     );
   }
 
-  if (loading) {
-    return (
-      <View style={styles.centerContainer}>
-        <ActivityIndicator size="large" color="#4CAF50" />
-        <Text style={styles.loadingText}>{loadingProgress}</Text>
-        {showBrowserOption && pdfUri && (
-          <>
-            <TouchableOpacity
-              style={styles.openButton}
-              onPress={() => {
-                Linking.openURL(pdfUri).catch(err => {
-                  console.error('Failed to open PDF:', err);
-                });
-              }}
-            >
-              <Ionicons name="open-outline" size={20} color="#fff" />
-              <Text style={styles.openButtonText}>Open in Browser Instead</Text>
-            </TouchableOpacity>
-            <Text style={styles.suggestionText}>
-              Or wait a bit longer for the in-app viewer
-            </Text>
-          </>
-        )}
-      </View>
-    );
-  }
-
-  if (error || !pdfUri) {
+  if (error || !pdfDataUrl) {
     return (
       <View style={styles.centerContainer}>
         <Ionicons name="alert-circle" size={64} color="#f44336" />
@@ -109,311 +332,64 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
         <Text style={styles.errorText}>
           {error || 'PDF not found'}
         </Text>
-        {pdfUri && (
-          <TouchableOpacity
-            style={styles.openButton}
-            onPress={() => {
-              Linking.openURL(pdfUri).catch(err => {
-                console.error('Failed to open PDF:', err);
-              });
-            }}
-          >
-            <Ionicons name="open-outline" size={20} color="#fff" />
-            <Text style={styles.openButtonText}>Open in Browser</Text>
-          </TouchableOpacity>
-        )}
-        <Text style={styles.suggestionText}>
-          Or switch to Markdown view to read the content
-        </Text>
       </View>
     );
   }
 
-  // Note: PDF.js in WebView can be slow due to:
-  // 1. CDN loading time for PDF.js library
-  // 2. Large PDF files taking time to download
-  // 3. Rendering performance on mobile devices
-  // 
-  // For better UX, we'll show a message with option to open in browser
-  // while also attempting to load in WebView in the background
-  
-  // Use PDF.js to render PDF in WebView with lazy loading for better performance
-  // Render first page immediately, then load others progressively
-  const htmlContent = `
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-        <style>
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-          body {
-            background-color: #525252;
-            overflow-x: hidden;
-            padding: 10px;
-          }
-          #pdf-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-          }
-          canvas {
-            margin: 10px 0;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-            max-width: 100%;
-            height: auto;
-            display: block;
-          }
-          .loading {
-            color: white;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            text-align: center;
-            padding: 40px 20px;
-            font-size: 16px;
-          }
-          .error {
-            color: #f44336;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-            text-align: center;
-            padding: 40px 20px;
-            font-size: 16px;
-          }
-          .page-placeholder {
-            min-height: 800px;
-            background-color: #424242;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #999;
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-          }
-        </style>
-      </head>
-      <body>
-        <div id="pdf-container">
-          <div class="loading">Loading PDF...</div>
-        </div>
-        <script>
-          (function() {
-            const container = document.getElementById('pdf-container');
-            const pdfUrl = '${pdfUri}';
-            let pdfDoc = null;
-            let numPages = 0;
-            let renderingQueue = [];
-            let isRendering = false;
-            
-            // Use lower scale for faster rendering - users can zoom
-            const SCALE = 1.2;
-            
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-
-            function renderPage(pageNum) {
-              if (!pdfDoc) return;
-              
-              return pdfDoc.getPage(pageNum).then(function(page) {
-                const viewport = page.getViewport({ scale: SCALE });
-                const canvas = document.createElement('canvas');
-                const ctx = canvas.getContext('2d');
-                canvas.height = viewport.height;
-                canvas.width = viewport.width;
-                canvas.id = 'page-' + pageNum;
-
-                const renderContext = {
-                  canvasContext: ctx,
-                  viewport: viewport
-                };
-                
-                return page.render(renderContext).promise.then(function() {
-                  // Find placeholder and replace it
-                  const placeholder = document.getElementById('placeholder-' + pageNum);
-                  if (placeholder) {
-                    placeholder.parentNode.replaceChild(canvas, placeholder);
-                  } else {
-                    container.appendChild(canvas);
-                  }
-                  
-                  // Notify React Native when first page is ready
-                  if (pageNum === 1 && window.ReactNativeWebView) {
-                    window.ReactNativeWebView.postMessage(JSON.stringify({
-                      type: 'PDF_FIRST_PAGE_LOADED',
-                      totalPages: numPages
-                    }));
-                  }
-                  
-                  // Process next in queue
-                  processQueue();
-                });
-              });
-            }
-            
-            function processQueue() {
-              if (isRendering || renderingQueue.length === 0) return;
-              
-              isRendering = true;
-              const pageNum = renderingQueue.shift();
-              
-              renderPage(pageNum).then(function() {
-                isRendering = false;
-                processQueue();
-              }).catch(function(error) {
-                console.error('Error rendering page ' + pageNum + ':', error);
-                isRendering = false;
-                processQueue();
-              });
-            }
-            
-            function startLazyLoading() {
-              container.innerHTML = '';
-              
-              // Create placeholders for all pages
-              for (let i = 1; i <= numPages; i++) {
-                const placeholder = document.createElement('div');
-                placeholder.id = 'placeholder-' + i;
-                placeholder.className = 'page-placeholder';
-                placeholder.textContent = 'Loading page ' + i + '...';
-                container.appendChild(placeholder);
-              }
-              
-              // Render first page immediately
-              renderPage(1).then(function() {
-                // Add remaining pages to queue
-                for (let i = 2; i <= numPages; i++) {
-                  renderingQueue.push(i);
-                }
-                processQueue();
-                
-                // Notify when all pages are loaded
-                setTimeout(function() {
-                  if (window.ReactNativeWebView) {
-                    window.ReactNativeWebView.postMessage(JSON.stringify({
-                      type: 'PDF_LOADED',
-                      totalPages: numPages
-                    }));
-                  }
-                }, 100);
-              });
-            }
-
-            // Add timeout for PDF.js loading
-            const loadTimeout = setTimeout(function() {
-              if (window.ReactNativeWebView) {
-                window.ReactNativeWebView.postMessage(JSON.stringify({
-                  type: 'PDF_TIMEOUT',
-                  message: 'PDF.js is taking too long to load'
-                }));
-              }
-            }, 10000); // 10 second timeout
-
-            pdfjsLib.getDocument({
-              url: pdfUrl,
-              withCredentials: false,
-              verbosity: 0, // Reduce console logging for performance
-              httpHeaders: {
-                'Accept': 'application/pdf'
-              }
-            }).promise.then(function(pdf) {
-              clearTimeout(loadTimeout);
-              pdfDoc = pdf;
-              numPages = pdf.numPages;
-              
-              if (window.ReactNativeWebView) {
-                window.ReactNativeWebView.postMessage(JSON.stringify({
-                  type: 'PDF_DOCUMENT_LOADED',
-                  totalPages: numPages
-                }));
-              }
-              
-              startLazyLoading();
-            }).catch(function(error) {
-              clearTimeout(loadTimeout);
-              console.error('Error loading PDF:', error);
-              container.innerHTML = '<div class="error">Error loading PDF: ' + error.message + '. Please try opening in browser or switch to Markdown view.</div>';
-              if (window.ReactNativeWebView) {
-                window.ReactNativeWebView.postMessage(JSON.stringify({
-                  type: 'PDF_ERROR',
-                  error: error.message
-                }));
-              }
-            });
-          })();
-        </script>
-      </body>
-    </html>
-  `;
-
   return (
     <View style={styles.container}>
-      {/* Show browser option overlay while loading */}
+      {/* Loading overlay */}
       {loading && (
         <View style={styles.overlay}>
           <View style={styles.overlayContent}>
-            <Ionicons name="document-text" size={48} color="#4CAF50" />
-            <Text style={styles.overlayTitle}>Loading PDF Viewer</Text>
-            <Text style={styles.overlayText}>
-              PDFs can take a moment to load.{'\n\n'}
-              For faster viewing, open in your browser:
-            </Text>
-            {pdfUri && (
-              <TouchableOpacity
-                style={styles.openButton}
-                onPress={() => {
-                  Linking.openURL(pdfUri).catch(err => {
-                    console.error('Failed to open PDF:', err);
-                  });
-                }}
-              >
-                <Ionicons name="open-outline" size={20} color="#fff" />
-                <Text style={styles.openButtonText}>Open in Browser</Text>
-              </TouchableOpacity>
-            )}
+            <ActivityIndicator size="large" color="#4CAF50" />
+            <Text style={styles.overlayTitle}>Loading PDF</Text>
+            <Text style={styles.overlayText}>{loadingProgress}</Text>
           </View>
         </View>
       )}
+      
+      {/* PDF WebView */}
       <WebView
+        ref={webViewRef}
         source={{ html: htmlContent }}
         style={styles.webview}
         onLoadStart={() => {
-          setLoading(true);
           setError(null);
         }}
         onLoadEnd={() => {
-          // Keep loading state until first page is ready
+          // Give PDF.js time to load
+          setTimeout(() => {
+            if (loading) {
+              setLoading(false);
+            }
+          }, 3000);
         }}
         onError={(syntheticEvent) => {
           const { nativeEvent } = syntheticEvent;
           console.error('WebView error:', nativeEvent);
-          setError('Failed to load PDF viewer. Please try opening in browser.');
+          setError('Failed to load PDF viewer.');
           setLoading(false);
         }}
         onMessage={(event) => {
           try {
             const data = JSON.parse(event.nativeEvent.data);
-            if (data.type === 'PDF_DOCUMENT_LOADED') {
-              // PDF document loaded, pages are rendering
-              console.log('PDF document loaded, total pages:', data.totalPages);
-            } else if (data.type === 'PDF_FIRST_PAGE_LOADED') {
-              // First page is ready - hide loading overlay
+            if (data.type === 'PDF_LOADED') {
+              setTotalPages(data.totalPages || 0);
+              setCurrentPage(data.currentPage || 1);
               setLoading(false);
-              if (onPageChange && data.totalPages) {
-                onPageChange(initialPage, data.totalPages);
+              if (onPageChange) {
+                onPageChange(data.currentPage || 1, data.totalPages || 0);
               }
-            } else if (data.type === 'PDF_LOADED') {
-              // All pages loaded (or at least queued)
-              setLoading(false);
-              if (onPageChange && data.totalPages) {
-                onPageChange(initialPage, data.totalPages);
+            } else if (data.type === 'PAGE_RENDERED') {
+              setCurrentPage(data.page || currentPage);
+              setTotalPages(data.totalPages || totalPages);
+              if (onPageChange) {
+                onPageChange(data.page || currentPage, data.totalPages || totalPages);
               }
             } else if (data.type === 'PDF_ERROR') {
+              console.error('PDF error:', data.error);
               setError('Failed to load PDF: ' + (data.error || 'Unknown error'));
-              setLoading(false);
-            } else if (data.type === 'PDF_TIMEOUT') {
-              setError('PDF viewer is taking too long to load. Please try opening in browser.');
               setLoading(false);
             }
           } catch (e) {
@@ -427,6 +403,41 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
         originWhitelist={['*']}
         mixedContentMode="always"
       />
+      
+      {/* Page Navigation Controls */}
+      {totalPages > 0 && !loading && (
+        <View style={styles.navigationContainer}>
+          <TouchableOpacity
+            style={[styles.navButton, currentPage === 1 && styles.navButtonDisabled]}
+            onPress={goToPrevPage}
+            disabled={currentPage === 1}
+          >
+            <Ionicons 
+              name="chevron-back" 
+              size={24} 
+              color={currentPage === 1 ? '#999' : '#fff'} 
+            />
+          </TouchableOpacity>
+          
+          <View style={styles.pageInfoContainer}>
+            <Text style={styles.pageInfoText}>
+              {currentPage} / {totalPages}
+            </Text>
+          </View>
+          
+          <TouchableOpacity
+            style={[styles.navButton, currentPage === totalPages && styles.navButtonDisabled]}
+            onPress={goToNextPage}
+            disabled={currentPage === totalPages}
+          >
+            <Ionicons 
+              name="chevron-forward" 
+              size={24} 
+              color={currentPage === totalPages ? '#999' : '#fff'} 
+            />
+          </TouchableOpacity>
+        </View>
+      )}
     </View>
   );
 };
@@ -434,7 +445,7 @@ export const PDFViewer: React.FC<PDFViewerProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#525252',
   },
   webview: {
     flex: 1,
@@ -444,30 +455,56 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5',
     padding: 20,
-  },
-  loadingText: {
-    marginTop: 16,
-    fontSize: 16,
-    color: '#666',
+    backgroundColor: '#fff',
   },
   infoTitle: {
-    marginTop: 16,
     fontSize: 20,
     fontWeight: '600',
-    color: '#333',
-    textAlign: 'center',
+    color: '#1a1a1a',
+    marginTop: 16,
     marginBottom: 8,
   },
   errorText: {
-    marginTop: 8,
+    fontSize: 16,
+    color: '#f44336',
+    textAlign: 'center',
+    marginBottom: 16,
+  },
+  loadingText: {
     fontSize: 16,
     color: '#666',
+    marginTop: 12,
+  },
+  overlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+  },
+  overlayContent: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 24,
+    alignItems: 'center',
+    minWidth: 200,
+  },
+  overlayTitle: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#1a1a1a',
+    marginTop: 16,
+    marginBottom: 8,
+  },
+  overlayText: {
+    fontSize: 14,
+    color: '#666',
     textAlign: 'center',
-    lineHeight: 24,
-    marginBottom: 24,
-    paddingHorizontal: 20,
   },
   openButton: {
     flexDirection: 'row',
@@ -476,7 +513,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 12,
     borderRadius: 8,
-    marginTop: 8,
+    marginTop: 16,
     gap: 8,
   },
   openButtonText: {
@@ -484,42 +521,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  suggestionText: {
-    marginTop: 16,
-    fontSize: 14,
-    color: '#999',
-    textAlign: 'center',
-    fontStyle: 'italic',
+  navigationContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
   },
-  overlay: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    backgroundColor: 'rgba(245, 245, 245, 0.95)',
-    zIndex: 10,
+  navButton: {
+    backgroundColor: '#4CAF50',
+    width: 44,
+    height: 44,
+    borderRadius: 22,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  overlayContent: {
+  navButtonDisabled: {
+    backgroundColor: '#333',
+  },
+  pageInfoContainer: {
+    flex: 1,
     alignItems: 'center',
-    padding: 20,
-    maxWidth: 300,
   },
-  overlayTitle: {
-    marginTop: 16,
-    fontSize: 20,
+  pageInfoText: {
+    color: '#fff',
+    fontSize: 16,
     fontWeight: '600',
-    color: '#333',
-    textAlign: 'center',
-    marginBottom: 12,
-  },
-  overlayText: {
-    fontSize: 14,
-    color: '#666',
-    textAlign: 'center',
-    lineHeight: 20,
-    marginBottom: 20,
   },
 });

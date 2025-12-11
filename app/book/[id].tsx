@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { View, StyleSheet, Text, TouchableOpacity, ScrollView, Modal, TextInput, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useLocalSearchParams, useRouter } from 'expo-router';
@@ -16,7 +16,8 @@ type ViewMode = 'pdf' | 'markdown';
 export default function BookReaderScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const router = useRouter();
-  const book = id ? getBookById(id) : null;
+  // Memoize book lookup to prevent re-calling getBooks() on every scroll/re-render
+  const book = useMemo(() => id ? getBookById(id) : null, [id]);
   const { bookmarks, addBookmark, removeBookmark } = useBookmarks();
 
   // Redirect to home if no book ID or book not found
@@ -95,11 +96,11 @@ export default function BookReaderScreen() {
     }
   };
 
-  const handleScroll = (position: number) => {
+  const handleScroll = useCallback((position: number) => {
     setScrollPosition(position);
     // For markdown, we'd need total content height to calculate progress
     // This is a simplified version
-  };
+  }, []);
 
   const handleToggleBookmark = async () => {
     if (!book) return;
@@ -236,9 +237,9 @@ export default function BookReaderScreen() {
         )}
         {viewMode === 'markdown' && book.markdownPath && (
           <MarkdownViewer
-            source={book.markdownPath}
-            onScroll={handleScroll}
-            initialPosition={scrollPosition}
+              source={book.markdownPath}
+              onScroll={handleScroll}
+              initialPosition={scrollPosition}
           />
         )}
       </View>
